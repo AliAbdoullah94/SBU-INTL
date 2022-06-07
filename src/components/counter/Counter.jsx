@@ -17,19 +17,39 @@ class Counter extends Component {
     render() {
         return (
             <div className="Counter">
-                <CounterButton by={1} incrementMethod={this.increment} />
-                <CounterButton by={5} incrementMethod={this.increment} />
-                <CounterButton by={10} incrementMethod={this.increment} />
+                <div className="child">
+                    <CounterButton op="+" by={1} editMethod={this.edit} />
+                    <CounterButton op="-" by={1} editMethod={this.edit} />
+                </div>
+                <div className="child">
+                    <CounterButton op="+" by={10} editMethod={this.edit} />
+                    <CounterButton op="-" by={10} editMethod={this.edit} />
+                </div>
+                <div className="child">
+                    <CounterButton op="+" by={5} editMethod={this.edit} />
+                    <CounterButton op="-" by={5} editMethod={this.edit} />
+
+                </div>
                 <span className="count">{this.state.counter}</span>
             </div>
         );
     }
 
-    increment = (by) => {
-        this.setState(
-            (prevState) => {
-                return { counter: prevState.counter + by }
-            })
+    edit = (by, op) => {
+        if (op == "+") {
+            this.setState(
+                (prevState) => {
+                    return { counter: prevState.counter + by }
+                })
+        }
+        else {
+            this.setState(
+                (prevState) => {
+                    return { counter: prevState.counter - by }
+                }
+            )
+        }
+
     }
 }
 
@@ -37,32 +57,20 @@ class CounterButton extends Component {
 
     constructor(props) {
         super();
-
-        this.state = {
-            counter: 0
-        }
-
     }
 
     render() {
         return (
             <div className="Counter">
-                <button onClick={this.increment}>+{this.props.by}</button>
+                <button onClick={this.edit}>{this.props.op}{this.props.by}</button>
             </div>
         )
     }
 
-    increment = () => {
-        console.log("Increment");
-        this.setState(
-            (prevState) => {
-                return {counter: prevState.counter + this.props.by}
-                }
-        )
-
-        this.props.incrementMethod(this.props.by)
+    edit = () => {
+        console.log("edit");
+        this.props.editMethod(this.props.by, this.props.op);
     }
-
 
 }
 

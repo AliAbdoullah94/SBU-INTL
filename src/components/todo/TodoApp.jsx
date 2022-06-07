@@ -1,21 +1,15 @@
 import { useState } from 'react';
-import { BrowserRouter as Router, useHistory, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, useNavigate, Route, Routes } from 'react-router-dom';
 
 const Todo = () => {
     return (
         <div >
             <Router>
-                <Switch>
-                    <Route exact path="/">
-                        <Login />
-                    </Route>
-                    <Route path="/login">
-                        <Login />
-                    </Route>
-                    <Route path="/welcome">
-                        <Welcome/>
-                    </Route>
-                </Switch>
+                <Routes>
+                    <Route exact path="/" element={<Login />}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/welcome" element={<Welcome/>}/>
+                </Routes>
             </Router>
             {/*<Login/>
             <Welcome/>*/}
@@ -53,12 +47,12 @@ const Login = () => {
 
 const LoginManage = (props) => {
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     function loginClicked() {
         console.log('log in clicked');
         if (props.username === 'in28minutes' && props.password === 'd') {
-            history.push("/welcome");
+            navigate("/welcome");
         }
         else {
             props.setLF(true);
