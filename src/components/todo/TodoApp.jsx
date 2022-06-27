@@ -1,80 +1,64 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, useNavigate, Route, Routes } from 'react-router-dom';
+import Footer from './Footer';
+import './todo.css';
+import ListTodos from './ListTodos';
+import Login from './Login';
+import Logout from './Logout';
+import Welcome from './Welcome';
+
+import { Link } from "react-router-dom";
+import AuthenticationService from "./AuthenticationService";
 
 const Todo = () => {
     return (
         <div >
             <Router>
+                <Header/>
                 <Routes>
                     <Route exact path="/" element={<Login />}/>
                     <Route path="/login" element={<Login/>}/>
-                    <Route path="/welcome" element={<Welcome/>}/>
+                    <Route path="/logout" element={<Logout/>}/>
+                    <Route path="/welcome/:name" element={<Welcome/>}/>
+                    <Route path="/todos" element={<ListTodos/>}/>
                 </Routes>
+                <Footer/>
             </Router>
-            {/*<Login/>
-            <Welcome/>*/}
         </div>
     );
 }
 
+const Header = () => {
+    /* const [isUserLoggedIn, setIsUserLoggedIn] = useState(); */
+    const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
+    /* setIsUserLoggedIn(AuthenticationService.isUserLoggedIn()); */
 
-const Welcome = () => {
-    return (<div>Welcome</div>);
-}
 
-const Login = () => {
-
-    const [name, setName] = useState('in28minutes');
-    const [password, setPassword] = useState('');
-    const [hasLoginFailed, setHasLoginFailed] = useState(false);
-    const [loginSuccesfull, setLoginSuccesfull] = useState(false);
-
-    const handleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value })
-    }
 
     return (
-        <div>
-            {/*<ShowInvalidLogin loginSuccesfull={this.state.loginSuccesfull} hasLoginFailed={this.state.hasLoginFailed}/>*/}
-            {loginSuccesfull && <div>Succesfull!!</div>}
-            {hasLoginFailed && <div>Failed</div>}
-            User Name: <input type="text" name='username' value={name} onChange={(e) => setName(e.target.value)} />
-            Password: <input type="password" name='password' onChange={(e) => setPassword(e.target.value)} />
-            <LoginManage username={name} password={password} setLF={setHasLoginFailed} setLS={setLoginSuccesfull}/>
-        </div>
-    );
-}
-
-const LoginManage = (props) => {
-
-    const navigate = useNavigate();
-
-    function loginClicked() {
-        console.log('log in clicked');
-        if (props.username === 'in28minutes' && props.password === 'd') {
-            navigate("/welcome");
-        }
-        else {
-            props.setLF(true);
-            props.setLoginSuccesfull(false);
-        
-        }
-    }
-
-    return (
-        <>
-            <button onClick={loginClicked}>Login</button>
-        </>
+        <header>
+            <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+                <div><a href="http://www.in28minutes.com"className="navbar-brand">in28Minutes</a></div>
+                <ul className="navbar-nav">
+                    {isUserLoggedIn && <li><Link className="nav-link" to="/welcome/in28minutes">Home</Link></li>}
+                    {isUserLoggedIn && <li><Link className="nav-link" to="/todos">Todos</Link></li>}
+                </ul>
+                <ul className="navbar-nav navbar-collapse justify-content-end" >
+                    {!isUserLoggedIn && <li><Link className="nav-link" to="/login">Login</Link></li>}
+                    {isUserLoggedIn && <li><Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link></li>}
+                </ul>
+            </nav>
+        </header>
     )
 }
 
 function ShowInvalidLogin(props) {
-    if (props.loginSuccesfull == true) {
+    if (props.loginSuccesfull === true) {
         return (<div>
             Succesfull
         </div>)
     }
-    else if (props.hasLoginFailed == true) {
+    else if (props.hasLoginFailed === true) {
         return (
             <div>
                 Failed!
