@@ -6,11 +6,11 @@ import ListTodos from './ListTodos';
 import Login from './Login';
 import Logout from './Logout';
 import Welcome from './Welcome';
-
+import Todo from './Todo';
 import { Link } from "react-router-dom";
-import AuthenticationService from "./AuthenticationService";
+import AuthenticationService from "../../auth/AuthenticationService";
 
-const Todo = () => {
+const TodoApp = () => {
     return (
         <div >
             <Router>
@@ -21,8 +21,9 @@ const Todo = () => {
                     <Route path="/logout" element={<Logout/>}/>
                     <Route path="/welcome/:name" element={<Welcome/>}/>
                     <Route path="/todos" element={<ListTodos/>}/>
+                    <Route path="/todos/:id" element={<Todo/>}/>
                 </Routes>
-                <Footer/>
+                {/* <Footer/> */}
             </Router>
         </div>
     );
@@ -69,4 +70,4 @@ function ShowInvalidLogin(props) {
     return null;
 }
 
-export default Todo;
+export default TodoApp;
