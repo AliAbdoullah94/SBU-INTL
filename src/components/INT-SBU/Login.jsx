@@ -5,7 +5,7 @@ import useFetch from "./useFetch";
 
 import React from "react";
 
-const Login = (props) => {
+const Login = () => {
     const [password, setPassword] = useState("");
     const [mail, setmail] = useState("");
     const [passwordError, setpasswordError] = useState("");
