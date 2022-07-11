@@ -21,7 +21,7 @@ const SignUp = () => {
         })
         .then(() => {
             setIsPending(false);
-            navigate.push('/')
+            navigate('/')
         })
 
     }

@@ -20,6 +20,7 @@ const Login = () => {
                 Password: <input type="password" name='password' onChange={(e) => setPassword(e.target.value)} />
                 <LoginManage username={name} password={password} setLF={setHasLoginFailed} setLS={setLoginSuccesfull} />
             </div>
+            
         </div>
     );
 }

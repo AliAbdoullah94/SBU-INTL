@@ -14,12 +14,12 @@ import { useState } from 'react';
 const INT = () => {
 
     const [loggedIn, setIsLoggedIn] = useState(false);
-
+    
     return (
-        <div className="App">
+        <div>
             <Router>
-                <Navbar />
-                <Header loggedIn={loggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <Navbar loggedIn={loggedIn} setIsLoggedIn={setIsLoggedIn}/>
+                {/* <Header loggedIn={loggedIn} setIsLoggedIn={setIsLoggedIn} /> */}
                 <div className="content">
                     <Routes>
                         <Route exact path="/" element={<Home />} />
