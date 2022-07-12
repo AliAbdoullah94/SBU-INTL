@@ -6,13 +6,14 @@ import useFetch from "./useFetch";
 const SignUp = () => {
     const [isPending, setIsPending] = useState(false);
 
-    const [firstName, setFirstName] = useState('Ali');
-    const [lastName, setLastName] = useState('Abdoullah');
-    const [mail, setMail] = useState('ali@mail.com');
+    
+    const [email, setEmail] = useState('ali@email.com');
     const [password, setPassword] = useState('1234');
+    const [password2, setPassword2] = useState('1234');
 
-    const [mailError, setmailError] = useState("");
-    const [mailExistError, setmailExistError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [emailExistError, setEmailExistError] = useState("");
+    const [Password2Erro, setPassword2Error] = useState("");
     const navigate = useNavigate();
 
     const { data: users } = useFetch('http://localhost:8000/users');
@@ -21,21 +22,26 @@ const SignUp = () => {
 
         let formIsValid = true;
         console.log("Handling Validation");
-        if (!mail.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
-            console.log("Not Valid Mail");
+        if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+            console.log("Not Valid Email");
             formIsValid = false;
-            setmailError("mail Not Valid");
+            setEmailError("email Not Valid");
             return false;
         } else {
-            setmailError("");
-            console.log("Valid mail");
+            setEmailError("");
+            console.log("Valid email");
             formIsValid = true;
+        }
+
+        if(password !== password2){
+            setPassword2Error("Entered Passwords don't match!");
+            formIsValid = false;
         }
 
         users.forEach(element => {
             console.log(element);
-            if (element.mail === mail) {
-                setmailExistError(`Mail ${mail} already exist`);
+            if (element.email === email) {
+                setEmailExistError(`Email ${email} already exist`);
                 formIsValid = false;
             }
         });
@@ -44,11 +50,12 @@ const SignUp = () => {
     }
 
     const handleSubmit = (e) => {
+        e.preventDefault();
         let res = handleValidation();
         console.log(res);
         if (res) {
             e.preventDefault();
-            const user = { firstName, lastName, mail, password };
+            const user = { /* firstName, lastName, */ email, password };
             fetch('http://localhost:8000/users', {
                 method: 'POST',
                 headers: { "Content-type": "application/json" },
@@ -56,45 +63,31 @@ const SignUp = () => {
             })
                 .then(() => {
                     setIsPending(false);
-                    AuthenticationService.registerSuccesfullLogin(firstName)
-                    navigate(`/welcome/${firstName}`)
+                    AuthenticationService.registerSuccesfullLogin(email)
+                    navigate(`/welcome/${email}`)
                 })
         }
 
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
             <h3>Sign Up</h3>
-            <div className="mb-3">
-                <label>First name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    placeholder="First name"
-                    onChange={(e) => setFirstName(e.target.value)}
-                    required value={firstName}
-                />
-            </div>
-            <div className="mb-3">
-                <label>Last name</label>
-                <input type="text" className="form-control" required placeholder="Last name" onChange={(e) => setLastName(e.target.value)} />
-            </div>
             <div className="mb-3">
                 <label>Email address</label>
                 <input
                     type="email"
                     className="form-control"
                     placeholder="Enter email"
-                    onChange={(e) => setMail(e.target.value)} required value={mail}
+                    onChange={(e) => setEmail(e.target.value)} required value={email}
                 />
             </div>
-            <small id="mailHelp" className="text-danger form-text">
-                {mailError}
+            <small id="emailHelp" className="text-danger form-text">
+                {emailError}
             </small>
-            <small id="mailExist" className="text-danger form-text">
-                {mailExistError}
-                {mailExistError && <p className="forgot-password text-right">
+            <small id="emailExist" className="text-danger form-text">
+                {emailExistError}
+                {emailExistError && <p className="forgot-password text-mid">
                     <a href="/Login">Login?</a>
                 </p>}
             </small>
@@ -107,6 +100,18 @@ const SignUp = () => {
                     onChange={(e) => setPassword(e.target.value)} required value={password}
                 />
             </div>
+            <div className="mb-3">
+                <label>Confirm Password</label>
+                <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Confirm password"
+                    onChange={(e) => setPassword2(e.target.value)} required value={password2}
+                />
+            </div>
+            <small id="passwordHelp" className="text-danger form-text">
+                {Password2Erro}
+            </small>
             <div className="d-grid">
                 <button type="submit" className="btn btn-primary">
                     Sign Up

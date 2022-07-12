@@ -1,102 +1,40 @@
 import React from 'react';
-import { useFormik } from 'formik';
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from 'yup';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthenticationService from "../../auth/AuthenticationService";
+import useFetch from "./useFetch";
+
 
 const Apply = () => {
-    const degrees = ['Bachelor', 'Master', 'PHD'];
-
-    const formik = useFormik({
-        initialValues: {
-            firstName: '',
-            lastName: '',
-            email: '',
-            degree: degrees[0],
-            age: 25,
-            gender: 'male'
-        },
-        onSubmit: values => { submit(values) },
-        validationSchema: Yup.object({
-            firstName: Yup.string()
-                .label('Full Name')
-                .required(),
-            lastName: Yup.string()
-                .label('Full Name')
-                .required(),
-            email: Yup.string()
-                .email()
-                .required(),
-            degree: Yup.string()
-                .oneOf(degrees, 'The degree you chose does not exist'),
-            age: Yup.number()
-                .min(15, 'You need to be older than 15 to register')
-                .required()
-        })
-    });
-
-
-    const submit = (values) => {
-        console.log(values)
-    }
+    const [firstName, setFirstName] = useState('Ali');
+    const [lastName, setLastName] = useState('Abdoullah');
 
     return (
-        <div className="container">
-            <form onSubmit={formik.handleSubmit} validate={formik.isValid}>
-                <div className="container-lg">
-                    <label htmlFor="firstName">First Name</label>
-                    <input
-                        id="firstName"
-                        name="firstName"
-                        type="text"
-                        onChange={formik.handleChange}
-                        value={formik.values.firstName}
-                    />
-                </div>
-                <div className="container-fluid">
-                    <label htmlFor="lastName">Last Name</label>
-                    <input
-                        id="lastName"
-                        name="lastName"
-                        type="text"
-                        onChange={formik.handleChange}
-                        value={formik.values.lastName}
-                    />
-                </div>
-                <div className="container-fluid">
-                    <label htmlFor="email">Email Address</label>
-                    <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        onChange={formik.handleChange}
-                        value={formik.values.email}
-                    />
-                </div>
-                <div className="container">
-                    <label htmlFor="degree">Apply for:</label>
-                    <select id="degree" name="degree" type="select"
-                        onChange={formik.handleChange}
-                        value={formik.values.degree}
-                    >
-                        {degrees.map((degree, index) => (
-                            <option value={degree} key={index}>{degree}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="container">
-                    <label htmlFor="age">Age</label>
-                    <input id="age" name="age" type="Number"
-                        onChange={formik.handleChange}
-                        value={formik.values.age}
-                    ></input>
-                </div>
-                <div className="container">
-                    <input type="radio" value="Male" name="gender" /> Male
-                    <input type="radio" value="Female" name="gender" /> Female
-                </div>
-                <button className="btn btn-success" type="submit">Submit</button>
-            </form>
-        </div>
+        <form >
+            <h3>Sign Up</h3>
+            <div className="mb-3">
+                <label>First name</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="First name"
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required value={firstName}
+                />
+            </div>
+            <div className="mb-3">
+                <label>Last name</label>
+                <input type="text" className="form-control" required placeholder="Last name" onChange={(e) => setLastName(e.target.value)} />
+            </div>
+            <div className="d-grid">
+                <button type="submit" className="btn btn-primary">
+                    Sign Up
+                </button>
+            </div>
+            <p className="forgot-password text-right">
+                Already registered <a href="/Login">Login?</a>
+            </p>
+        </form>
     );
 };
 

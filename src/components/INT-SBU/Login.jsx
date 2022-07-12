@@ -7,11 +7,11 @@ import React from "react";
 
 const Login = () => {
     const [password, setPassword] = useState("");
-    const [mail, setmail] = useState("");
+    const [email, setEmail] = useState("");
     const [passwordError, setpasswordError] = useState("");
-    const [mailError, setmailError] = useState("");
+    const [emailError, setEmailError] = useState("");
 
-
+    /* const { data: users } = useFetch('http://localhost:8080/users'); */
     const { data: users } = useFetch('http://localhost:8000/users');
 
     const navigate = useNavigate();
@@ -22,19 +22,19 @@ const Login = () => {
 
         let formIsValid = true;
         console.log("Handling Validation");
-        if (!mail.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
-            console.log("Not Valid Mail");
+        if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+            console.log("Not Valid email");
             formIsValid = false;
-            setmailError("mail Not Valid");
+            setEmailError("email Not Valid");
             return false;
         } else {
-            setmailError("");
-            console.log("Valid mail");
+            setEmailError("");
+            console.log("Valid email");
             formIsValid = true;
         }
 
         users.forEach(element => {
-            if (element.mail === mail) {
+            if (element.email === email) {
                 console.log("Found");
                 console.log("Element Pass: ", element.password);
                 console.log("Entered Pass: ", password);
@@ -52,7 +52,7 @@ const Login = () => {
                 }
             }
             else {
-                setmailError("Mail not Found");
+                setEmailError("Email not Found");
                 formIsValid = false;
             }
         });
@@ -85,10 +85,10 @@ const Login = () => {
                                     name="EmailInput"
                                     aria-describedby="emailHelp"
                                     placeholder="Enter email"
-                                    onChange={(event) => setmail(event.target.value)}
+                                    onChange={(event) => setEmail(event.target.value)}
                                 />
-                                <small id="mailHelp" className="text-danger form-text">
-                                    {mailError}
+                                <small id="emailHelp" className="text-danger form-text">
+                                    {emailError}
                                 </small>
                             </div>
                             <div className="form-group">
