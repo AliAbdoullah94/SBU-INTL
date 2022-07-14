@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UserDataService from "../../api/UserDataService";
 import AuthenticationService from "../../auth/AuthenticationService";
 import useFetch from "./useFetch";
 
-const SignUp = () => {
+const SignUp = (props) => {
     const [isPending, setIsPending] = useState(false);
 
     
-    const [email, setEmail] = useState('ali@email.com');
+    const [email, setEmail] = useState('ali@mail.com');
     const [password, setPassword] = useState('1234');
     const [password2, setPassword2] = useState('1234');
 
@@ -16,7 +17,7 @@ const SignUp = () => {
     const [Password2Erro, setPassword2Error] = useState("");
     const navigate = useNavigate();
 
-    const { data: users } = useFetch('http://localhost:8000/users');
+    const { data: users } = useFetch('http://localhost:8080/users');
 
     const handleValidation = (event) => {
 
@@ -55,12 +56,14 @@ const SignUp = () => {
         console.log(res);
         if (res) {
             e.preventDefault();
+            props.setIsLoggedIn(true);
             const user = { /* firstName, lastName, */ email, password };
-            fetch('http://localhost:8000/users', {
+            UserDataService.createUser(user)
+            /* fetch('http://localhost:8080/users', {
                 method: 'POST',
                 headers: { "Content-type": "application/json" },
                 body: JSON.stringify(user)
-            })
+            }) */
                 .then(() => {
                     setIsPending(false);
                     AuthenticationService.registerSuccesfullLogin(email)

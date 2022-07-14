@@ -14,27 +14,31 @@ import Navbar from '../INT/navbar';
 import Apply from './Apply';
 import SignUp from './SignUp';
 import NotFound from '../INT/NotFound';
+import Sformik from './Sformik';
+import Myformik from './Apply';
 
 const SBU = () => {
 
     const [loggedIn, setIsLoggedIn] = useState(false);
     return (
-        <div >
+        <div>
             <Router>
-                <Header/>
+                <Header loggedIn={loggedIn} setIsLoggedIn={setIsLoggedIn}/>
                 <Routes>
                     <Route exact path="/" element={<Login />}/>
-                    <Route path="/sign-up" element={<SignUp loggedIn={loggedIn} setIsLoggedIn={setIsLoggedIn}/>} />
-                    <Route path="/login" element={<Login loggedIn={loggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
-                    <Route path="/logout" element={<Logout loggedIn={loggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route path="/sign-up" element={<SignUp setIsLoggedIn={setIsLoggedIn}/>} />
+                    <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn}/>}/>
                     <Route path="/welcome/:name" element={<Welcome/>}/>
                     <Route path="/apply" element={<Apply/>}/>
                     <Route path="/todos" element={<ListTodos/>}/>
                     <Route path="/todos/:id" element={<Todo/>}/>
+                    <Route path="/formik" element={<Sformik/>}/>
+                    <Route path="/myformik" element={<Myformik/>}/>
                     <Route path="*" element={<NotFound />} />
                 </Routes>
-                <Footer/>
             </Router>
+            {/* <Footer/> */}
         </div>
     );
 }

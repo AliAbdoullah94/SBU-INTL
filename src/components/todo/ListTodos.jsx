@@ -14,22 +14,22 @@ const ListTodos = () => {
     useEffect(() => {
         let username = AuthenticationService.getLoggedInUserName();
         ToDoDataService.retrieveAllTodos(username)
-        .then(
-            response => {
-                setTodos(response.data)
-            }
-        )
-      }, [todos, message])
+            .then(
+                response => {
+                    setTodos(response.data)
+                }
+            )
+    }, [todos, message])
 
     const deleteTodoClicked = (id) => {
         let username = AuthenticationService.getLoggedInUserName();
-        ToDoDataService.deleteTodo(username,id)
-        .then(
-            response => {
-                setMessage(`Delete of to do ${id} succesfull`)
-            }
-        )
-    }  
+        ToDoDataService.deleteTodo(username, id)
+            .then(
+                response => {
+                    setMessage(`Delete of to do ${id} succesfull`)
+                }
+            )
+    }
 
     const updateTodoClicked = (id) => {
         navigator(`/todos/${id}`)
@@ -77,7 +77,7 @@ const ListTodos = () => {
     );
 }
 
-export default ListTodos; 
+export default ListTodos;
 
 /* const [todos, setTodos] = useState([
         { id: '1', description: 'Learn React', done: false, targetDate: new Date() },

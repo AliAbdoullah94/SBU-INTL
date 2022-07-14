@@ -1,26 +1,35 @@
 import axios from "axios"
 
-class DataService {
-     
-    retrieveAllTodos(name) {
-        return axios.get(`http://localhost:8080/users/${name}/todos`);  
+class UserDataService {
+
+    retrieveAllUsers() {
+        return axios.get(`http://localhost:8080/users`);
+        /* return useFetch('http://localhost:8080/users'); */
     }
 
-    retrieveTodo(name,id) {
-        return axios.get(`http://localhost:8080/users/${name}/todos/${id}`);  
+    retrieveUser(email) {
+        return axios.get(`http://localhost:8080/users/${email}`);
     }
 
-    deleteTodo(name, id) {
-        return axios.delete(`http://localhost:8080/users/${name}/todos/${id}`);  
-    } 
+    deleteUser(email) {
+        return axios.delete(`http://localhost:8080/users/${email}`);
+    }
 
-    updateTodo(name, id, todo) {
-        return axios.put(`http://localhost:8080/users/${name}/todos/${id}`, todo);   
-    } 
+    updateUser(email, user) {
+        return fetch(`http://localhost:8080/users/${email}`, {
+            method: 'PUT',
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(user)
+        })
+    }
 
-    createTodo(name, todo) {
-        return axios.post(`http://localhost:8080/users/${name}/todos`, todo);   
-    } 
+    createUser(user) {
+        return fetch('http://localhost:8080/users', {
+            method: 'POST',
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(user)
+        })
+    }
 }
 
-export default new DataService()
+export default new UserDataService()
