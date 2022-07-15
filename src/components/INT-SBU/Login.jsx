@@ -16,7 +16,7 @@ const Login = (props) => {
     const [forgot, setForgot] = useState(false);
 
     /* const { data: users } = useFetch('http://localhost:8080/users'); */
-    const { data: users } = useFetch('http://localhost:8080/users'); 
+    const { data: users } = useFetch('http://localhost:8080/users');
 
     let NAME;
 
@@ -25,7 +25,7 @@ const Login = (props) => {
 
     const handleValidation = (event) => {
 
-        console.log(users);
+        console.log("users",users);
         let formIsValid = true;
         console.log("Handling Validation");
         if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
@@ -38,32 +38,43 @@ const Login = (props) => {
             console.log("Valid email");
             formIsValid = true;
         }
-
-        users.forEach(element => {
-            if (element.email === email) {
-                console.log("Found");
-                console.log("Element Pass: ", element.password);
-                console.log("Entered Pass: ", password);
-                if (element.password === password) {
-                    console.log("Password matched");
-                    NAME = element.firstName;
-                    console.log("Name is", element.firstName);
-                    console.log("NAME is", NAME);
-                    console.log("form is", formIsValid);
-                    formIsValid = true;
-                    console.log("form is", formIsValid);
-                    users.length = 0;
+        if (users.length > 0) {
+            users.forEach(element => {
+                if (element.email === email) {
+                    console.log("Found");
+                    console.log("Element Pass: ", element.password);
+                    console.log("Entered Pass: ", password);
+                    if (element.password === password) {
+                        console.log("Password matched");
+                        if (element.firstName) {
+                            NAME = element.firstName;
+                        }
+                        else {
+                            NAME = element.email;
+                        }
+                        console.log("Name is", element.firstName);
+                        console.log("NAME is", NAME);
+                        console.log("form is", formIsValid);
+                        formIsValid = true;
+                        console.log("form is", formIsValid);
+                        users.length = 0;
+                    }
+                    else {
+                        setpasswordError("Wrong Password");
+                        formIsValid = false;
+                    }
                 }
                 else {
-                    setpasswordError("Wrong Password");
+                    setEmailError("Email not Found");
                     formIsValid = false;
                 }
-            }
-            else {
-                setEmailError("Email not Found");
-                formIsValid = false;
-            }
-        });
+            });
+        } else {
+            setEmailError("Email not Found");
+            formIsValid = false;
+        }
+
+
         return formIsValid;
     }
 
@@ -113,7 +124,7 @@ const Login = (props) => {
                                     {passwordError}
                                 </small>
                                 <small id="forgoterror" className="form-text">
-                                    <label style={{cursor:"pointer"}} onClick={() => setForgot(true)}>forgot password?</label>
+                                    <label style={{ cursor: "pointer" }} onClick={() => setForgot(true)}>forgot password?</label>
                                     {forgot && <p>Did Will Smith use one of those flashy thingies from Men in Black on you?</p>}
                                     {forgot && <img src={fpass} alt="loading..." />}
                                     {forgot && <p>Unfortunetly we can't reset password for you.. So try to remember it!</p>}

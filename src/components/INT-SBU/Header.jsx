@@ -22,6 +22,7 @@ const Header = (props) => {
                 <ul className="navbar-nav">
                     {props.loggedIn && <li><Link className="nav-link" to="/welcome/Ali">Home</Link></li>}
                     {props.loggedIn && <li><Link className="nav-link" to="/apply">Apply</Link></li>}
+                    {props.loggedIn && <li><Link className="nav-link" to="/forms">Forms</Link></li>}
                     {props.loggedIn && <li><Link className="nav-link" to="/todos">Todos</Link></li>}
                 </ul>
                 <ul className="navbar-nav navbar-collapse justify-content-end" >

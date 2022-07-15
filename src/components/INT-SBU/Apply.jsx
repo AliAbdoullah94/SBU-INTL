@@ -25,7 +25,7 @@ const Apply = () => {
         let createdApplicant = {
             firstName: values.firstName,
             lastName: values.lastName,
-            email: values.email,
+            email: email,
             nationality: values.nationality,
             degree: values.degree,
             applyFor: values.applyFor,
@@ -49,8 +49,10 @@ const Apply = () => {
                 console.log(createdApplicant);
                 FormDataService.createForm(createdForm)
             }
-            ).then(
+            ).then(() => {
                 console.log("Form Sent")
+                navigate('/forms')
+            }
             )
 
 
@@ -142,17 +144,17 @@ const Apply = () => {
                                     />
                                 </fieldset>
 
-                                <fieldset className="form-group">
+                                {/* <fieldset className="form-group">
                                     <MyTextInput
                                         label="Email Address"
                                         name="email"
                                         type="email"
                                         placeholder="jane@formik.com"
                                     />
-                                </fieldset>
+                                </fieldset> */}
 
                                 <fieldset className="form-group">
-                                    <MySelect label="Degree" name="Degree">
+                                    <MySelect label="degree" name="degree">
                                         {degrees.map(e => (
                                             <option key={e} value={e} >{e}</option>
                                         )
@@ -199,8 +201,6 @@ const Apply = () => {
                                         I accept the terms and conditions
                                     </MyCheckbox>
                                 </fieldset>
-
-
 
                                 <button type="submit" className="btn btn-primary">Submit</button>
                             </Form>

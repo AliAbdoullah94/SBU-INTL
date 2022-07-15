@@ -15,7 +15,8 @@ import Apply from './Apply';
 import SignUp from './SignUp';
 import NotFound from '../INT/NotFound';
 import Sformik from './Sformik';
-import Myformik from './Apply';
+import Forms from './Forms';
+import Applicant from './Applicant';
 
 const SBU = () => {
 
@@ -34,8 +35,10 @@ const SBU = () => {
                     <Route path="/todos" element={<ListTodos/>}/>
                     <Route path="/todos/:id" element={<Todo/>}/>
                     <Route path="/formik" element={<Sformik/>}/>
-                    <Route path="/myformik" element={<Myformik/>}/>
+                    <Route path="/forms" element={<Forms/>}/>
+                    <Route path="/applicants/:id" element={<Applicant/>}/>
                     <Route path="*" element={<NotFound />} />
+                    
                 </Routes>
             </Router>
             {/* <Footer/> */}
