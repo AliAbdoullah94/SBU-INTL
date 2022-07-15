@@ -25,7 +25,7 @@ const SBU = () => {
             <Router>
                 <Header loggedIn={loggedIn} setIsLoggedIn={setIsLoggedIn}/>
                 <Routes>
-                    <Route exact path="/" element={<Login />}/>
+                    <Route exact path="/" element={<Login setIsLoggedIn={setIsLoggedIn}/>}/>
                     <Route path="/sign-up" element={<SignUp setIsLoggedIn={setIsLoggedIn}/>} />
                     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}/>}/>
                     <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn}/>}/>
