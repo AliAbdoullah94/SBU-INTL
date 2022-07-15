@@ -35,13 +35,6 @@ const Apply = () => {
             aboutApplicant: values.aboutApplicant
         }
 
-        console.log("created", createdApplicant);
-
-        ApplicantDataService.createApplicant(createdApplicant)
-            .then(
-                console.log("Applicant Sent")
-            )
-
         let createdForm = {
             applicant: createdApplicant,
             applyFor: values.applyFor,
@@ -49,10 +42,18 @@ const Apply = () => {
             aboutApplicant: values.aboutApplicant
         }
 
-        FormDataService.createForm(createdForm)
-            .then(
+        console.log("created", createdApplicant);
+
+        ApplicantDataService.createApplicant(createdApplicant)
+            .then(() => {
+                console.log(createdApplicant);
+                FormDataService.createForm(createdForm)
+            }
+            ).then(
                 console.log("Form Sent")
             )
+
+
     }
 
     return (
