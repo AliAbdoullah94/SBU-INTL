@@ -44,7 +44,7 @@ const Applicant = () => {
 
     return (
         <div>
-            <h1>{applicant.firstName + ' ' + applicant.lastName}</h1>
+            <h1 class="display-6">{applicant.firstName + ' ' + applicant.lastName}</h1>
             <div className="container">
                 <table className="table">
                     <thead>

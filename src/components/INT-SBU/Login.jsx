@@ -70,7 +70,7 @@ const Login = (props) => {
                 }
             });
         } else {
-            setEmailError("Email not Found");
+            setEmailError("Empty DB");
             formIsValid = false;
         }
 

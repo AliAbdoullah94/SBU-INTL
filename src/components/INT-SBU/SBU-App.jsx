@@ -17,6 +17,7 @@ import NotFound from '../INT/NotFound';
 import Sformik from './Sformik';
 import Forms from './Forms';
 import Applicant from './Applicant';
+import Applicants from './Applicants';
 
 const SBU = () => {
 
@@ -36,6 +37,7 @@ const SBU = () => {
                     <Route path="/todos/:id" element={<Todo/>}/>
                     <Route path="/formik" element={<Sformik/>}/>
                     <Route path="/forms" element={<Forms/>}/>
+                    <Route path="/applicants" element={<Applicants/>}/>
                     <Route path="/applicants/:id" element={<Applicant/>}/>
                     <Route path="*" element={<NotFound />} />
                     
