@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import UserDataService from "../../api/UserDataService";
+import ApplicantDataService from "../../api/ApplicantDataService";
 import AuthenticationService from "../../auth/AuthenticationService";
 import useFetch from "./useFetch";
 
 const SignUp = (props) => {
     const [isPending, setIsPending] = useState(false);
 
-    
+    const [firstName, setFirstName] = useState('Ali');
+    const [lastName, setLastName] = useState('Abdoullah');
     const [email, setEmail] = useState('ali@mail.com');
     const [password, setPassword] = useState('1234');
     const [password2, setPassword2] = useState('1234');
@@ -17,7 +18,7 @@ const SignUp = (props) => {
     const [Password2Erro, setPassword2Error] = useState("");
     const navigate = useNavigate();
 
-    const { data: users } = useFetch('http://localhost:8080/users');
+    const { data: applicants } = useFetch('http://localhost:8080/applicants');
 
     const handleValidation = (event) => {
 
@@ -34,12 +35,12 @@ const SignUp = (props) => {
             formIsValid = true;
         }
 
-        if(password !== password2){
+        if (password !== password2) {
             setPassword2Error("Entered Passwords don't match!");
             formIsValid = false;
         }
 
-        users.forEach(element => {
+        applicants.forEach(element => {
             console.log(element);
             if (element.email === email) {
                 setEmailExistError(`Email ${email} already exist`);
@@ -57,13 +58,13 @@ const SignUp = (props) => {
         if (res) {
             e.preventDefault();
             props.setIsLoggedIn(true);
-            const user = { /* firstName, lastName, */ email, password };
-            UserDataService.createUser(user)
-            /* fetch('http://localhost:8080/users', {
-                method: 'POST',
-                headers: { "Content-type": "application/json" },
-                body: JSON.stringify(user)
-            }) */
+            const applicant = { /* firstName, lastName, */ email, password };
+            ApplicantDataService.createApplicant(applicant)
+                /* fetch('http://localhost:8080/applicants', {
+                    method: 'POST',
+                    headers: { "Content-type": "application/json" },
+                    body: JSON.stringify(applicant)
+                }) */
                 .then(() => {
                     setIsPending(false);
                     AuthenticationService.registerSuccesfullLogin(email)
@@ -75,54 +76,58 @@ const SignUp = (props) => {
 
     return (
         <form onSubmit={handleSubmit} >
-            <h3>Sign Up</h3>
-            <div className="mb-3">
-                <label>Email address</label>
-                <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Enter email"
-                    onChange={(e) => setEmail(e.target.value)} required value={email}
-                />
+            <div className="row d-flex justify-content-center">
+                <h3>Sign Up</h3>
+                <div className="col-md-4">
+                    <div className="form-group">
+                        <label>Email address</label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            placeholder="Enter email"
+                            onChange={(e) => setEmail(e.target.value)} required value={email}
+                        />
+                    </div>
+                    <small id="emailHelp" className="text-danger form-text">
+                        {emailError}
+                    </small>
+                    <small id="emailExist" className="text-danger form-text">
+                        {emailExistError}
+                        {emailExistError && <p className="forgot-password text-mid">
+                            <a href="/Login">Login?</a>
+                        </p>}
+                    </small>
+                    <div className="mb-3">
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            placeholder="Enter password"
+                            onChange={(e) => setPassword(e.target.value)} required value={password}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label>Confirm Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            placeholder="Confirm password"
+                            onChange={(e) => setPassword2(e.target.value)} required value={password2}
+                        />
+                    </div>
+                    <small id="passwordHelp" className="text-danger form-text">
+                        {Password2Erro}
+                    </small>
+                    <div className="d-grid">
+                        <button type="submit" className="btn btn-primary">
+                            Sign Up
+                        </button>
+                    </div>
+                    <p className="forgot-password text-right">
+                        Already registered <a href="/Login">Login?</a>
+                    </p>
+                </div>
             </div>
-            <small id="emailHelp" className="text-danger form-text">
-                {emailError}
-            </small>
-            <small id="emailExist" className="text-danger form-text">
-                {emailExistError}
-                {emailExistError && <p className="forgot-password text-mid">
-                    <a href="/Login">Login?</a>
-                </p>}
-            </small>
-            <div className="mb-3">
-                <label>Password</label>
-                <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Enter password"
-                    onChange={(e) => setPassword(e.target.value)} required value={password}
-                />
-            </div>
-            <div className="mb-3">
-                <label>Confirm Password</label>
-                <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Confirm password"
-                    onChange={(e) => setPassword2(e.target.value)} required value={password2}
-                />
-            </div>
-            <small id="passwordHelp" className="text-danger form-text">
-                {Password2Erro}
-            </small>
-            <div className="d-grid">
-                <button type="submit" className="btn btn-primary">
-                    Sign Up
-                </button>
-            </div>
-            <p className="forgot-password text-right">
-                Already registered <a href="/Login">Login?</a>
-            </p>
         </form>
     );
 }
