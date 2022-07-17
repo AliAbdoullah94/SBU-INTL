@@ -22,17 +22,18 @@ import Applicants from './Applicants';
 const SBU = () => {
 
     const [loggedIn, setIsLoggedIn] = useState(false);
+    const [email, setEmail] = useState('');
     return (
         <div>
             <Router>
                 <Header loggedIn={loggedIn} setIsLoggedIn={setIsLoggedIn}/>
                 <Routes>
-                    <Route exact path="/" element={<Login setIsLoggedIn={setIsLoggedIn}/>}/>
-                    <Route path="/sign-up" element={<SignUp setIsLoggedIn={setIsLoggedIn}/>} />
-                    <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route exact path="/" element={<Login setIsLoggedIn={setIsLoggedIn} setEmail={setEmail}/>}/>
+                    <Route path="/sign-up" element={<SignUp setIsLoggedIn={setIsLoggedIn} setEmail={setEmail}/>} />
+                    <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setEmail={setEmail}/>}/>
                     <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn}/>}/>
                     <Route path="/welcome/:name" element={<Welcome/>}/>
-                    <Route path="/apply" element={<Apply/>}/>
+                    <Route path="/apply" element={<Apply email={email}/>}/>
                     <Route path="/todos" element={<ListTodos/>}/>
                     <Route path="/todos/:id" element={<Todo/>}/>
                     <Route path="/formik" element={<Sformik/>}/>

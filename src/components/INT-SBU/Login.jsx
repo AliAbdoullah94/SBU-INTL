@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import fpass from "../resources/Forgot.gif"
 
 import React from "react";
-import UserDataService from "../../api/UserDataService";
+import ApplicantDataService from "../../api/ApplicantDataService";
 
 const Login = (props) => {
     const [password, setPassword] = useState("");
@@ -15,8 +15,8 @@ const Login = (props) => {
     const [emailError, setEmailError] = useState("");
     const [forgot, setForgot] = useState(false);
 
-    /* const { data: users } = useFetch('http://localhost:8080/users'); */
-    const { data: users } = useFetch('http://localhost:8080/users');
+    /* const { data: applicants } = useFetch('http://localhost:8080/applicants'); */
+    const { data: applicants } = useFetch('http://localhost:8080/applicants');
 
     let NAME;
 
@@ -25,7 +25,7 @@ const Login = (props) => {
 
     const handleValidation = (event) => {
 
-        console.log("users",users);
+        console.log("applicants",applicants);
         let formIsValid = true;
         console.log("Handling Validation");
         if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
@@ -38,8 +38,8 @@ const Login = (props) => {
             console.log("Valid email");
             formIsValid = true;
         }
-        if (users.length > 0) {
-            users.forEach(element => {
+        if (applicants.length > 0) {
+            applicants.forEach(element => {
                 if (element.email === email) {
                     console.log("Found");
                     console.log("Element Pass: ", element.password);
@@ -57,7 +57,7 @@ const Login = (props) => {
                         console.log("form is", formIsValid);
                         formIsValid = true;
                         console.log("form is", formIsValid);
-                        users.length = 0;
+                        applicants.length = 0;
                     }
                     else {
                         setpasswordError("Wrong Password");
@@ -84,6 +84,7 @@ const Login = (props) => {
         console.log(validated);
         if (validated) {
             props.setIsLoggedIn(true);
+            props.setEmail(email);
             AuthenticationService.registerSuccesfullLogin(NAME);
             console.log(`Navigating to /welcome/${NAME}`);
             navigate(`/welcome/${NAME}`);

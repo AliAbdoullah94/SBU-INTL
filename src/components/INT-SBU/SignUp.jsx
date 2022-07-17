@@ -1,135 +1,133 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import ApplicantDataService from "../../api/ApplicantDataService";
-import AuthenticationService from "../../auth/AuthenticationService";
-import useFetch from "./useFetch";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import AuthenticationService from '../../auth/AuthenticationService';
+import MyTextInput from './MyFormikComponents/MyTextInput';
+import MyCheckbox from './MyFormikComponents/MyCheckBox';
+import ApplicantDataService from '../../api/ApplicantDataService';
+import { useNavigate } from 'react-router-dom';
+
 
 const SignUp = (props) => {
-    const [isPending, setIsPending] = useState(false);
-
-    const [firstName, setFirstName] = useState('Ali');
-    const [lastName, setLastName] = useState('Abdoullah');
-    const [email, setEmail] = useState('ali@mail.com');
-    const [password, setPassword] = useState('1234');
-    const [password2, setPassword2] = useState('1234');
-
-    const [emailError, setEmailError] = useState("");
-    const [emailExistError, setEmailExistError] = useState("");
-    const [Password2Erro, setPassword2Error] = useState("");
     const navigate = useNavigate();
 
-    const { data: applicants } = useFetch('http://localhost:8080/applicants');
+    const handleSubmit = (values) => {
+        console.log("values", values);
+        props.setIsLoggedIn(true);
+        props.setEmail(values.email);
 
-    const handleValidation = (event) => {
-
-        let formIsValid = true;
-        console.log("Handling Validation");
-        if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
-            console.log("Not Valid Email");
-            formIsValid = false;
-            setEmailError("email Not Valid");
-            return false;
-        } else {
-            setEmailError("");
-            console.log("Valid email");
-            formIsValid = true;
+        let createdApplicant = {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            password: values.password,
+            confirmPassword: values.confirmPassword,
         }
 
-        if (password !== password2) {
-            setPassword2Error("Entered Passwords don't match!");
-            formIsValid = false;
-        }
+        ApplicantDataService.createApplicant(createdApplicant)
+            .then(() => {
+                AuthenticationService.registerSuccesfullLogin(values.firstName)
+                navigate(`/welcome/${values.firstName}`)
+            })
 
-        applicants.forEach(element => {
-            console.log(element);
-            if (element.email === email) {
-                setEmailExistError(`Email ${email} already exist`);
-                formIsValid = false;
-            }
-        });
-
-        return formIsValid;
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        let res = handleValidation();
-        console.log(res);
-        if (res) {
-            e.preventDefault();
-            props.setIsLoggedIn(true);
-            const applicant = { /* firstName, lastName, */ email, password };
-            ApplicantDataService.createApplicant(applicant)
-                /* fetch('http://localhost:8080/applicants', {
-                    method: 'POST',
-                    headers: { "Content-type": "application/json" },
-                    body: JSON.stringify(applicant)
-                }) */
-                .then(() => {
-                    setIsPending(false);
-                    AuthenticationService.registerSuccesfullLogin(email)
-                    navigate(`/welcome/${email}`)
-                })
-        }
 
     }
 
     return (
-        <form onSubmit={handleSubmit} >
-            <div className="row d-flex justify-content-center">
-                <h3>Sign Up</h3>
-                <div className="col-md-4">
-                    <div className="form-group">
-                        <label>Email address</label>
-                        <input
-                            type="email"
-                            className="form-control"
-                            placeholder="Enter email"
-                            onChange={(e) => setEmail(e.target.value)} required value={email}
-                        />
+        <div className="App ">
+            <div className="container ">
+                <div className="row d-flex justify-content-center">
+                    <div className="col-md-4">
+                        <h1>Sign Up!</h1>
+                        <Formik
+                            initialValues={{
+                                firstName: 'Ali',
+                                lastName: 'Abdoullah',
+                                email: 'testSignUp@mail.com',
+                                password: '1234',
+                                confirmPassword: '1234',
+                                acceptedTerms: true,
+                            }}
+                            validationSchema={Yup.object({
+                                firstName: Yup.string()
+                                    .max(15, 'Must be 15 characters or less')
+                                    .required('Required'),
+                                lastName: Yup.string()
+                                    .max(20, 'Must be 20 characters or less')
+                                    .required('Required'),
+                                email: Yup.string()
+                                    .email('Invalid email address')
+                                    .required('Required'),
+                                password: Yup.string()
+                                    .required('No password provided.')
+                                    .min(3, 'Password is too short - should be 3 chars minimum.'),
+                                confirmPassword: Yup.string()
+                                    .required('Confirm Password'),
+                            })}
+                            onSubmit={handleSubmit}
+                        >
+                            <Form>
+                                <fieldset className="form-group">
+                                    <MyTextInput
+                                        label="First Name"
+                                        name="firstName"
+                                        type="text"
+                                        placeholder="Ali"
+                                    />
+                                </fieldset>
+
+                                <fieldset className="form-group">
+                                    <MyTextInput
+                                        label="Last Name"
+                                        name="lastName"
+                                        type="text"
+                                        placeholder="Abdoullah"
+                                    />
+                                </fieldset>
+
+                                <fieldset className="form-group">
+                                    <MyTextInput
+                                        label="Email Address"
+                                        name="email"
+                                        type="email"
+                                        placeholder="jane@formik.com"
+                                    />
+                                </fieldset>
+
+                                <fieldset className="form-group">
+                                    <MyTextInput
+                                        label="Password"
+                                        name="password"
+                                        type="password"
+                                    />
+                                </fieldset>
+
+                                <fieldset className="form-group">
+                                    <MyTextInput
+                                        label="Retype Your Password"
+                                        name="confirmPassword"
+                                        type="password"
+                                    />
+                                </fieldset>
+
+                                <fieldset className="form-group">
+                                    <MyCheckbox name="acceptedTerms">
+                                        I accept the terms and conditions
+                                    </MyCheckbox>
+                                </fieldset>
+
+                                <button type="submit" className="btn btn-primary">Submit</button>
+
+                            </Form>
+                        </Formik>
                     </div>
-                    <small id="emailHelp" className="text-danger form-text">
-                        {emailError}
-                    </small>
-                    <small id="emailExist" className="text-danger form-text">
-                        {emailExistError}
-                        {emailExistError && <p className="forgot-password text-mid">
-                            <a href="/Login">Login?</a>
-                        </p>}
-                    </small>
-                    <div className="mb-3">
-                        <label>Password</label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            placeholder="Enter password"
-                            onChange={(e) => setPassword(e.target.value)} required value={password}
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label>Confirm Password</label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            placeholder="Confirm password"
-                            onChange={(e) => setPassword2(e.target.value)} required value={password2}
-                        />
-                    </div>
-                    <small id="passwordHelp" className="text-danger form-text">
-                        {Password2Erro}
-                    </small>
-                    <div className="d-grid">
-                        <button type="submit" className="btn btn-primary">
-                            Sign Up
-                        </button>
-                    </div>
-                    <p className="forgot-password text-right">
-                        Already registered <a href="/Login">Login?</a>
-                    </p>
                 </div>
             </div>
-        </form>
+            <p className="forgot-password text-right">
+                Already registered <a href="/Login">Login?</a>
+            </p>
+        </div>
     );
-}
+};
 
 export default SignUp;
