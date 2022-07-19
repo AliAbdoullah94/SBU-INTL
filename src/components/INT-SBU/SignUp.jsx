@@ -35,9 +35,9 @@ const SignUp = (props) => {
 
     return (
         <div className="App ">
-            <div className="container ">
+            <div className="container fw-bold">
                 <div className="row d-flex justify-content-center">
-                    <div className="col-md-4">
+                    <div className="col-md-4 border border-5 p-3 mb-2 shadow-lg p-3">
                         <h1>Sign Up!</h1>
                         <Formik
                             initialValues={{
@@ -120,12 +120,14 @@ const SignUp = (props) => {
 
                             </Form>
                         </Formik>
+                        <p className="forgot-password text-right">
+                            Already registered <a href="/Login">Login?</a>
+                        </p>
                     </div>
+
                 </div>
+
             </div>
-            <p className="forgot-password text-right">
-                Already registered <a href="/Login">Login?</a>
-            </p>
         </div>
     );
 };

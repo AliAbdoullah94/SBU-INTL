@@ -92,10 +92,10 @@ const Login = (props) => {
     }
 
     return (
-        <div className="App">
-            <div className="container">
-                <div className="row d-flex justify-content-center">
-                    <div className="col-md-4">
+        <div className="App fw-bold">
+            <div className="container position-absolute top-50 start-50 translate-middle">
+                <div className="row d-flex justify-content-center ">
+                    <div className="col-md-4 border border-5 p-3 mb-2 shadow-lg p-3 ">
                         <form id="loginform" onSubmit={loginSubmit}>
                             <div className="form-group">
                                 <label>Email address</label>

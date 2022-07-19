@@ -21,7 +21,8 @@ const Header = (props) => {
                 <div><a href="http://localhost:4200/" className="navbar-brand">INT</a></div>
                 <ul className="navbar-nav">
                     {props.loggedIn && <li><Link className="nav-link" to="/welcome/Ali">Home</Link></li>}
-                    {props.loggedIn && <li><Link className="nav-link" to="/apply">Apply</Link></li>}
+                    {!props.loggedIn && <li><Link className="nav-link" to="/apply">Apply</Link></li>}
+                    {!props.loggedIn && <li><Link className="nav-link" to="/contact">Contact Details</Link></li>}
                     {props.loggedIn && <li><Link className="nav-link" to="/forms">Forms</Link></li>}
                     {props.loggedIn && <li><Link className="nav-link" to="/applicants">Applicants</Link></li>}
                     {props.loggedIn && <li><Link className="nav-link" to="/todos">Todos</Link></li>}

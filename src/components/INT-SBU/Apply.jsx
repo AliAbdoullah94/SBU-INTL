@@ -58,11 +58,11 @@ const Apply = (props) => {
 
     return (
         <div className="App ">
-            <div className="container ">
-                <div className="row d-flex justify-content-center">
-                    <div className="col-md-4">
-                        <h1>Apply!</h1>
-                        <Formik
+            <div className="container fw-bold">
+                <div className="row d-flex justify-content-center ">
+                    <div className="col-md-5 border border-5 p-3 mb-2 shadow-lg p-3 ">
+                        <h1 className='fs-1 badge bg-primary text-end text-wrap' >Apply!</h1>
+                        <Formik 
                             initialValues={{
                                 nationality: 'Syrian',
                                 degree: degrees[1],
@@ -98,7 +98,7 @@ const Apply = (props) => {
                                 
                                 <fieldset className="form-group">
                                     <MyTextInput
-                                        label="birth"
+                                        label="Birth"
                                         name="birth"
                                         type="date"
                                     />
@@ -106,7 +106,7 @@ const Apply = (props) => {
 
                                 <fieldset className="form-group">
                                     <MyTextInput
-                                        label="nationality"
+                                        label="Nationality"
                                         name="nationality"
                                         type="text"
                                         placeholder="Syrian"
@@ -114,7 +114,7 @@ const Apply = (props) => {
                                 </fieldset>
 
                                 <fieldset className="form-group">
-                                    <MySelect label="degree" name="degree">
+                                    <MySelect label="Current Degree" name="degree">
                                         {degrees.map(e => (
                                             <option key={e} value={e} >{e}</option>
                                         )
@@ -123,7 +123,7 @@ const Apply = (props) => {
                                 </fieldset>
 
                                 <fieldset className="form-group">
-                                    <MySelect label="applyFor" name="applyFor">
+                                    <MySelect label="Apply For" name="applyFor">
                                         {degreesToApp.filter(e => e != 'None').map(e => (
                                             <option key={e} value={e} >{e}</option>
                                         )
@@ -141,7 +141,7 @@ const Apply = (props) => {
                                 </fieldset>
 
                                 <fieldset className="form-group">
-                                    <MySelect label="gender" name="gender">
+                                    <MySelect label="Gender" name="gender">
                                         <option value="male" >Male</option>
                                         <option value="female" >Female</option>
                                     </MySelect>

@@ -18,6 +18,8 @@ import Sformik from './Sformik';
 import Forms from './Forms';
 import Applicant from './Applicant';
 import Applicants from './Applicants';
+import Form from './MultiStepForm/Form';
+import ContactDetails from './formsComponents/ContactDetails';
 
 const SBU = () => {
 
@@ -39,6 +41,8 @@ const SBU = () => {
                     <Route path="/formik" element={<Sformik/>}/>
                     <Route path="/forms" element={<Forms/>}/>
                     <Route path="/applicants" element={<Applicants/>}/>
+                    <Route path="/multi" element={<Form/>}/>
+                    <Route path="/contact" element={<ContactDetails/>}/>
                     <Route path="/applicants/:id" element={<Applicant/>}/>
                     <Route path="*" element={<NotFound />} />
                     
