@@ -10,20 +10,11 @@ import MySelect from '../MyFormikComponents/MySelect';
 import ApplicantDataService from '../../../api/ApplicantDataService';
 import { useNavigate } from 'react-router-dom';
 import FormDataService from '../../../api/FormDataService';
+import {medicalConditionValues, hearAboutUsValues, phoneRegExp, str2bool} from './resources'
 
 const ContactDetails = (props) => {
-    const medicalConditionValues = ['Hearing', 'Learning', 'Mobility', 'Visual', 'other'];
-    const hearAboutUsWays = ['Education Agent', 'Career & Education Expo', 'Careers Adviser', 'Print / Newspaper', 'Word of Mouth', 'Internet'];
-    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-
+    
     const navigate = useNavigate();
-    const str2bool = (value) => {
-        if (value && typeof value === "string") {
-            if (value.toLowerCase() === "true") return true;
-            if (value.toLowerCase() === "false") return false;
-        }
-        return value;
-    }
 
     const handleSubmit = (values) => {
         console.log(values.hasMedicalCondition);
@@ -35,7 +26,7 @@ const ContactDetails = (props) => {
             email: email,
             address: values.address,
             medicalCondition: values.medicalCondition,
-            hearAboutUs: values.hearAboutUs,
+            hearAboutUsWays: values.hearAboutUsWays,
             birth: values.birth,
             city: values.city,
             aboutApplicant: values.aboutApplicant
@@ -43,7 +34,7 @@ const ContactDetails = (props) => {
 
         let createdForm = {
             applicant: createdApplicant,
-            hearAboutUs: values.hearAboutUs,
+            hearAboutUsWays: values.hearAboutUsWays,
             dateCreated: new Date(),
             aboutApplicant: values.aboutApplicant
         }
@@ -66,19 +57,20 @@ const ContactDetails = (props) => {
 
     return (
         <div className="App ">
-            <div className="container ">
+            <div className="container">
                 <div className="row d-flex justify-content-center ">
                     <div className="col-md-6 border border-5 p-3 mb-2 shadow-lg p-3">
-                        <h1 className='fs-1 badge bg-primary text-wrap '>Contact Details</h1>
+                        <h1 className='fs-1 badge bg-primary text-wrap text-center'>Contact Details</h1>
                         <Formik
                             enableReinitialize={true}
                             initialValues={{
                                 address: 'Velenjak - Bolvar',
                                 city: 'Damascus',
                                 mobile: '09901234567',
+                                phone: '0211234567',
                                 hasMedicalCondition: str2bool("false"),
                                 medicalConditions: medicalConditionValues[1],
-                                hearAboutUs: hearAboutUsWays[0],
+                                hearAboutUsWays: hearAboutUsValues[0],
                             }}
                             validationSchema={Yup.object({
                                 address: Yup.string()
@@ -88,11 +80,14 @@ const ContactDetails = (props) => {
                                 mobile: Yup.string()
                                     .required('Required')
                                     .matches(phoneRegExp, 'Phone number is not valid'),
+                                phone: Yup.string()
+                                    .required('Required')
+                                    .matches(phoneRegExp, 'Phone number is not valid'),
                                 hasMedicalCondition: Yup.boolean()
                                     .required('Required'),
                                 medicalConditions: Yup.array().of(Yup.string())
                                     .required('Required'),
-                                hearAboutUs: Yup.array().of(Yup.string())
+                                hearAboutUsWays: Yup.array().of(Yup.string())
                                     .required('Required'),
                             })}
                             onSubmit={handleSubmit}
@@ -100,7 +95,7 @@ const ContactDetails = (props) => {
                             {({ values }) => (
                                 <Form >
 
-                                    <div class="row g-2 text-start">
+                                    <div class="row g-2 text-start fw-bold">
                                         <div class="col-md">
                                             <div class="form-floating">
                                                 <fieldset className="form-group">
@@ -127,31 +122,56 @@ const ContactDetails = (props) => {
                                         </div>
                                     </div>
 
-                                    <div id="has-medical-condition-group" className="form-group fw-bold text-start">Do You have any medical Conditions?</div>
-                                    <div role="group" aria-labelledby="has-medical-condition-group">
-                                        <label className="form-group" >
-                                            <Field type="radio" name="hasMedicalCondition" value="true" />
-                                            Yes
-                                        </label>
-                                        <label className="form-group">
-                                            <Field type="radio" name="hasMedicalCondition" value="false" />
-                                            No
-                                        </label>
+                                    <div class="row g-2 text-start fw-bold">
+                                        <div class="col-md">
+                                            <div class="form-floating">
+                                                <fieldset className="form-group">
+                                                    <MyTextInput
+                                                        label="Mobile"
+                                                        name="mobile"
+                                                        type="text"
+                                                        placeholder="Mobile Num"
+                                                    />
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <div class="form-floating">
+                                                <fieldset className="form-group">
+                                                    <MyTextInput
+                                                        label="Phone"
+                                                        name="phone"
+                                                        type="text"
+                                                        placeholder="Phone Num"
+                                                    />
+                                                </fieldset>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    {str2bool(values.hasMedicalCondition) && <fieldset className="form-group ">
-                                        <div className="form-group fw-bold text-start"> What are they ?</div>
+                                    <div id="has-medical-condition-group" className="form-check fw-bold text-start">Do you suffer from any medical condition/disability that may affect your studies?</div>
+                                    <div role="group" aria-labelledby="has-medical-condition-group" className='form-check text-start'>
+                                        <Field type="radio" className="form-check-input" name="hasMedicalCondition" value="true" id="hasMedicalCondition" />
+                                        <label className="form-check-label" for="hasMedicalCondition">Yes</label>
+                                    </div>
+                                    <div role="group" aria-labelledby="has-medical-condition-group" className='form-check text-start'>
+                                        <Field type="radio" className="form-check-input" name="hasMedicalCondition" value="false" id="hasMedicalCondition" />
+                                        <label className="form-check-label" for="hasMedicalCondition">No</label>
+                                    </div>
+
+                                    {str2bool(values.hasMedicalCondition) && <fieldset className="form-check text-start">
+                                        <div className="form-check-label  fw-bold text-start"> Please specify from the following..</div>
                                         {medicalConditionValues.map(e => (
-                                            <MyCheckbox key={e} name="medicalConditions" value={e}>
+                                            <MyCheckbox key={e} name="medicalConditions" className="form-check-input text-center" id="flexCheckDefault" value={e}>
                                                 {e}
                                             </MyCheckbox>
                                         ))}
                                     </fieldset>}
 
-                                    <fieldset className="form-group">
-                                        <div className="form-group fw-bold text-start"> How did you hear about us?</div>
-                                        {hearAboutUsWays.map(e => (
-                                            <MyCheckbox key={e} name="hearAboutUs" className="text-center" value={e}>
+                                    <fieldset className="form-check text-start">
+                                        <label className="form-check-label fw-bold text-start"> How did you hear about us?</label>
+                                        {hearAboutUsValues.map(e => (
+                                            <MyCheckbox key={e} name="hearAboutUsWays" className="form-check-input text-center" id="flexCheckDefault" value={e}>
                                                 {e}
                                             </MyCheckbox>
                                         ))}

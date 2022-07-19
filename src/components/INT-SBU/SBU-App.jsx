@@ -20,6 +20,7 @@ import Applicant from './Applicant';
 import Applicants from './Applicants';
 import Form from './MultiStepForm/Form';
 import ContactDetails from './formsComponents/ContactDetails';
+import PassAndVisa from './formsComponents/PassAndVisa';
 
 const SBU = () => {
 
@@ -43,6 +44,7 @@ const SBU = () => {
                     <Route path="/applicants" element={<Applicants/>}/>
                     <Route path="/multi" element={<Form/>}/>
                     <Route path="/contact" element={<ContactDetails/>}/>
+                    <Route path="/pass" element={<PassAndVisa/>}/>
                     <Route path="/applicants/:id" element={<Applicant/>}/>
                     <Route path="*" element={<NotFound />} />
                     
