@@ -18,6 +18,9 @@ export const str2bool = (value) => {
     return value;
 }
 
+/* export const faculties = ['Department of Telecommunication', 'Department of Electronics', 'Department of Systems and Control', 'Department of Power']; */
+
+
 export const faculties = {
     'Faculty of Electrical Engineering': ['Department of Telecommunication', 'Department of Electronics', 'Department of Systems and Control', 'Department of Power'],
     'Faculty of Computer Engineering and Science': ['Department of Software Engineering & Information', 'Department of Artificial Intelligence and Robotics', 'Department of Computer Architecture and Networks'],
