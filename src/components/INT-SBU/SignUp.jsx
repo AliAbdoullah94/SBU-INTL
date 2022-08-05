@@ -5,6 +5,7 @@ import AuthenticationService from '../../auth/AuthenticationService';
 import MyTextInput from './MyFormikComponents/MyTextInput';
 import MyCheckbox from './MyFormikComponents/MyCheckBox';
 import ApplicantDataService from '../../api/ApplicantDataService';
+import LogDataService from '../../api/LogDataService';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -24,11 +25,22 @@ const SignUp = (props) => {
             confirmPassword: values.confirmPassword,
         }
 
+        let createdLog = {
+            logType: 'SignUp',
+            applicant: createdApplicant,
+            dateCreated: new Date(),
+        }
+
         ApplicantDataService.createApplicant(createdApplicant)
             .then(() => {
+                LogDataService.createLog(createdLog);
+            }
+            ).then(() => {
+                console.log("Log created")
                 AuthenticationService.registerSuccesfullLogin(values.firstName)
                 navigate(`/welcome/${values.firstName}`)
-            })
+            }
+            )
 
 
     }
