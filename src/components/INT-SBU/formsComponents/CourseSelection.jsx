@@ -2,57 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Formik, Form, useField, Field } from 'formik';
 import * as Yup from 'yup';
-import AuthenticationService from '../../../auth/AuthenticationService';
-import MyTextInput from '../MyFormikComponents/MyTextInput';
-import MyTextArea from '../MyFormikComponents/MyTextArea';
-import MyCheckbox from '../MyFormikComponents/MyCheckBox';
 import MySelect from '../MyFormikComponents/MySelect';
-import ApplicantDataService from '../../../api/ApplicantDataService';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import FormDataService from '../../../api/FormDataService';
+
 import { faculties, visaTypes, medicalConditionValues, hearAboutUsValues, phoneRegExp, str2bool, countryList } from './resources'
 import { useState } from 'react';
 
 const CourseSelection = (props) => {
 
-    const navigate = useNavigate();
-    const [wishList, setWishList] = useState(['123', '456']);
+    const [, updateState] = React.useState();
+    const forceUpdate = React.useCallback(() => updateState({}), []);
+    const [wishList, setWishList] = useState({});
+
+    const addWish = (fac, dep) => {
+        console.log('fac is', fac, 'dep is', dep);
+        const temp = wishList;
+        temp[fac] = dep;
+        console.log('temp is', temp);
+        setWishList(temp);
+        console.log(wishList);
+        forceUpdate();
+    }
+
+    useEffect(() => {
+
+    }, [addWish, setWishList])
+
     const handleSubmit = (values) => {
         console.log(values.hasVisa);
-
-        /* let email = props.email;
-        console.log("values", values);
-
-        let createdApplicant = {
-            email: email,
-            VisaNumber: values.VisaNumber,
-            medicalCondition: values.medicalCondition,
-            hearAboutUsWays: values.hearAboutUsWays,
-            birth: values.birth,
-            VisaExpiry: values.VisaExpiry,
-            aboutApplicant: values.aboutApplicant
-        }
-
-        let createdForm = {
-            applicant: createdApplicant,
-            hearAboutUsWays: values.hearAboutUsWays,
-            dateCreated: new Date(),
-            aboutApplicant: values.aboutApplicant
-        }
-
-        console.log("created", createdApplicant);
-
-        ApplicantDataService.updateApplicant(email, createdApplicant)
-            .then(() => {
-                console.log(createdApplicant);
-                FormDataService.createForm(createdForm)
-            }
-            ).then(() => {
-                console.log("Form Sent")
-                navigate('/forms')
-            }
-            )
- */
 
     }
 
@@ -65,7 +43,7 @@ const CourseSelection = (props) => {
                         <Formik
                             enableReinitialize={true}
                             initialValues={{
-                                faculity: faculties['Faculty of Electrical Engineering'],
+                                faculity: 'Faculty of Electrical Engineering',
                                 department: faculties['Faculty of Electrical Engineering'][0],
                                 PassExpiry: new Date(),
                                 VisaNumber: '123456',
@@ -102,7 +80,7 @@ const CourseSelection = (props) => {
                                     <fieldset className="form-group fw-bold">
                                         <MySelect label="Department" name="department">
                                             {
-                                                faculties['Faculty of Computer Engineering and Science'].map(e => (
+                                                faculties[values.faculity].map(e => (
                                                     <option key={e} value={e} >{e}</option>
                                                 )
                                                 )
@@ -110,80 +88,24 @@ const CourseSelection = (props) => {
                                         </MySelect>
                                     </fieldset>
 
-                                    <button onClick={()=> setWishList(values.faculity)} className="btn btn-primary">Add</button>
+                                    <button type='button' onClick={() => addWish(values.faculity, values.department)} className="btn btn-primary">Add Wish</button>
 
                                     <fieldset className="form-group fw-bold">
-
-                                    </fieldset>
-                                    <div className='text-start'>
-                                        {wishList.map((e) => {
-                                            return (
-                                                <div key={e}>
-                                                    <h2>{e}</h2>
-                                                    <hr />
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-
-
-
-{/*                                     <fieldset className="form-group">
-                                        <MyTextInput
-                                            label="Passport Expiry"
-                                            name="passExpiry"
-                                            type="date"
-                                            placeholder="Damas"
-                                        />
+                                        <div className='text-start'>
+                                            {
+                                                Object.entries(wishList).map(item => {
+                                                    return (
+                                                        <div key={item}>
+                                                            <h4>{item}</h4>
+                                                            <hr />
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </div>
                                     </fieldset>
 
-                                    <div id="has-visa-group" className="form-check fw-bold text-start">Do you currently hold a valid visa of Iran?</div>
-                                    <div role="group" aria-labelledby="has-visa-group" className='form-check text-start'>
-                                        <Field type="radio" className="form-check-input" name="hasVisa" value="true" id="hasVisa" />
-                                        <label className="form-check-label">Yes</label>
-                                    </div>
-                                    <div role="group" aria-labelledby="has-visa-group" className='form-check text-start'>
-                                        <Field type="radio" className="form-check-input" name="hasVisa" value="false" id="hasVisa" />
-                                        <label className="form-check-label">No</label>
-                                    </div>
 
-                                    {str2bool(values.hasVisa) && <fieldset className="form-group fw-bold">
-                                        <MySelect label="Visa Type" name="degree">
-                                            {visaTypes.map(e => (
-                                                <option key={e} value={e} >{e}</option>
-                                            )
-                                            )}
-                                        </MySelect>
-                                    </fieldset>}
-
-
-                                    {str2bool(values.hasVisa) && <div className="row g-2 text-start fw-bold">
-                                        <div className="col-md">
-                                            <div className="form-floating">
-                                                <fieldset className="form-group">
-                                                    <MyTextInput
-                                                        label="Visa Number"
-                                                        name="VisaNumber"
-                                                        type="text"
-                                                        placeholder="ie 2346"
-                                                    />
-                                                </fieldset>
-                                            </div>
-                                        </div>
-                                        <div className="col-md">
-                                            <div className="form-floating">
-                                                <fieldset className="form-group">
-                                                    <MyTextInput
-                                                        label="Visa Expiry"
-                                                        name="VisaExpiry"
-                                                        type="date"
-                                                        placeholder="Damas"
-                                                    />
-                                                </fieldset>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    } */}
                                     <button type="submit" className="btn btn-primary">Submit</button>
                                 </Form>
                             )}
