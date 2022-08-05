@@ -72,14 +72,15 @@ const ContactDetails = (props) => {
                                 medicalConditions: medicalConditionValues[1],
                                 hearAboutUsWays: hearAboutUsValues[0],
                             }}
-                            validationSchema={Yup.object({
+                            validationSchema={
+                                Yup.object({
                                 address: Yup.string()
                                     .required('Required'),
                                 city: Yup.string()
                                     .required('Required'),
                                 mobile: Yup.string()
                                     .required('Required')
-                                    .matches(phoneRegExp, 'Phone number is not valid'),
+                                    .matches(phoneRegExp, 'Mobile number is not valid'),
                                 phone: Yup.string()
                                     .required('Required')
                                     .matches(phoneRegExp, 'Phone number is not valid'),
@@ -89,7 +90,8 @@ const ContactDetails = (props) => {
                                     .required('Required'),
                                 hearAboutUsWays: Yup.array().of(Yup.string())
                                     .required('Required'),
-                            })}
+                            })
+                        }
                             onSubmit={handleSubmit}
                         >
                             {({ values }) => (

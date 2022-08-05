@@ -64,9 +64,10 @@ const PassAndVisa = (props) => {
                         <Formik
                             enableReinitialize={true}
                             initialValues={{
-                                passCountry:'',
+                                passCountry: '',
                                 passNumber: '123456',
                                 passExpiry: new Date(),
+                                passDoc: undefined,
                                 VisaNumber: '123456',
                                 VisaExpiry: new Date(),
                                 hasVisa: str2bool("false"),
@@ -84,7 +85,13 @@ const PassAndVisa = (props) => {
                                     .required('Required'),
                                 hasVisa: Yup.boolean()
                                     .required('Required'),
-                            })}
+                            })
+                                .shape({
+                                    passDoc: Yup
+                                        .mixed()
+                                        .required("A file is required")
+                                })
+                            }
                             onSubmit={handleSubmit}
                         >
                             {({ values }) => (
@@ -125,7 +132,12 @@ const PassAndVisa = (props) => {
                                             </div>
                                         </div>
                                     </div>
-                                    
+
+                                    <fieldset className="form-group fw-bold">
+                                        <label>Upload Passport Image</label>
+                                        <Field className="form-control" type="file" name="passDoc" />
+                                    </fieldset>
+
                                     <div id="has-visa-group" className="form-check fw-bold text-start">Do you currently hold a valid visa of Iran?</div>
                                     <div role="group" aria-labelledby="has-visa-group" className='form-check text-start'>
                                         <Field type="radio" className="form-check-input" name="hasVisa" value="true" id="hasVisa" />
@@ -182,7 +194,7 @@ const PassAndVisa = (props) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
