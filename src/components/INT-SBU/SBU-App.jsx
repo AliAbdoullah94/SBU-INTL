@@ -22,6 +22,7 @@ import Form from './MultiStepForm/Form';
 import ContactDetails from './formsComponents/ContactDetails';
 import PassAndVisa from './formsComponents/PassAndVisa';
 import CourseSelection from './formsComponents/CourseSelection';
+import MainForm from './formsComponents/MainForm';
 import Archive from './Archive';
 
 const SBU = () => {
@@ -46,6 +47,7 @@ const SBU = () => {
                     <Route path="/archive" element={<Archive/>}/>
                     <Route path="/applicants" element={<Applicants/>}/>
                     <Route path="/multi" element={<Form/>}/>
+                    <Route path="/main" element={<MainForm/>}/>
                     <Route path="/contact" element={<ContactDetails/>}/>
                     <Route path="/pass" element={<PassAndVisa/>}/>
                     <Route path="/course" element={<CourseSelection/>}/>
