@@ -25,7 +25,7 @@ const Apply = (props) => {
             <div className="container fw-bold">
                 <div className="row d-flex justify-content-center ">
                     <div className="col-md-5 border border-5 p-3 mb-2 shadow-lg p-3 ">
-                        <h1 className='fs-1 badge bg-primary text-end text-wrap' >Apply!</h1>
+                        <h1 className='fs-1 badge bg-primary text-end text-wrap' >Personal Info</h1>
                         <Formik
                             initialValues={props.data}
                             validationSchema={Yup.object({
@@ -41,9 +41,6 @@ const Apply = (props) => {
                                     .required('Required'),
                                 gender: Yup.string()
                                     .required('Required'),
-                                acceptedTerms: Yup.boolean()
-                                    .required('Required')
-                                    .oneOf([true], 'You must accept the terms and conditions.'),
                                 job: Yup.string()
                                     .required('Required'),
                             })
@@ -159,12 +156,12 @@ const Apply = (props) => {
                                         />
                                     </fieldset>
 
-                                    <fieldset className="form-group">
+                                    {/* <fieldset className="form-group">
                                         <MyCheckbox name="acceptedTerms">
                                             I accept the terms and conditions
                                         </MyCheckbox>
                                     </fieldset>
-
+ */}
                                     <button type="submit" className="btn btn-primary">Next</button>
                                 </Form>
                             )}

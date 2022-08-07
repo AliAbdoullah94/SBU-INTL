@@ -99,7 +99,7 @@ const CourseSelection = (props) => {
                                             <button type="button" onClick={() => props.prev(values)} className="btn btn-primary">Back</button>
                                         </div>
                                         <div className="col-md text-end">
-                                            <button type="submit" className="btn btn-primary">ٍSubmit</button>
+                                            <button type="submit" className="btn btn-primary">Submit</button>
                                         </div>
                                     </div>
                                 </Form>
