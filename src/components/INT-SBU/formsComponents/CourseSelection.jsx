@@ -6,7 +6,7 @@ import MySelect from '../MyFormikComponents/MySelect';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { faculties, visaTypes, medicalConditionValues, hearAboutUsValues, phoneRegExp, str2bool, countryList } from './resources'
+import { faculties, str2bool} from './resources'
 import { useState } from 'react';
 
 const CourseSelection = (props) => {
@@ -25,13 +25,9 @@ const CourseSelection = (props) => {
         forceUpdate();
     }
 
-    useEffect(() => {
-
-    }, [addWish, setWishList])
-
     const handleSubmit = (values) => {
-        console.log(values.hasVisa);
-
+        console.log('Values Course', values)
+        props.next(values, true)
     }
 
     return (
@@ -42,14 +38,7 @@ const CourseSelection = (props) => {
                         <h1 className='fs-1 badge bg-primary text-wrap text-center'>Course Selection</h1>
                         <Formik
                             enableReinitialize={true}
-                            initialValues={{
-                                faculity: 'Faculty of Electrical Engineering',
-                                department: faculties['Faculty of Electrical Engineering'][0],
-                                PassExpiry: new Date(),
-                                VisaNumber: '123456',
-                                VisaExpiry: new Date(),
-                                hasVisa: str2bool("false"),
-                            }}
+                            initialValues={props.data}
                             validationSchema={Yup.object({
                                 department: Yup.string()
                                     .required('Required'),
@@ -105,8 +94,14 @@ const CourseSelection = (props) => {
                                         </div>
                                     </fieldset>
 
-
-                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                    <div className="row g-2 text-start fw-bold">
+                                        <div className="col-md text-start">
+                                            <button type="button" onClick={() => props.prev(values)} className="btn btn-primary">Back</button>
+                                        </div>
+                                        <div className="col-md text-end">
+                                            <button type="submit" className="btn btn-primary">ٍSubmit</button>
+                                        </div>
+                                    </div>
                                 </Form>
                             )}
 

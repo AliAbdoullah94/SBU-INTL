@@ -22,10 +22,6 @@ const Header = (props) => {
                 <ul className="navbar-nav">
                     {props.loggedIn && <li><Link className="nav-link" to="/welcome/Ali">Home</Link></li>}
                     {!props.loggedIn && <li><Link className="nav-link" to="/main">Main Form</Link></li>}
-                    {!props.loggedIn && <li><Link className="nav-link" to="/apply">Apply</Link></li>}
-                    {!props.loggedIn && <li><Link className="nav-link" to="/contact">Contact Details</Link></li>}
-                    {!props.loggedIn && <li><Link className="nav-link" to="/pass">Passport</Link></li>}
-                    {!props.loggedIn && <li><Link className="nav-link" to="/course">Course Selection</Link></li>}
                     {!props.loggedIn && <li><Link className="nav-link" to="/archive">Archive</Link></li>}
                     {props.loggedIn && <li><Link className="nav-link" to="/forms">Forms</Link></li>}
                     {props.loggedIn && <li><Link className="nav-link" to="/applicants">Applicants</Link></li>}

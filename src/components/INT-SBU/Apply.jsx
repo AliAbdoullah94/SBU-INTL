@@ -10,50 +10,14 @@ import MySelect from './MyFormikComponents/MySelect';
 import ApplicantDataService from '../../api/ApplicantDataService';
 import { useNavigate } from 'react-router-dom';
 import FormDataService from '../../api/FormDataService';
-
+import { countryList, degrees, degreesToApp, jobs } from './formsComponents/resources'
 const Apply = (props) => {
-    const degrees = ['High School', 'Bachelor', 'Master'];
-    const degreesToApp = ['Bachelor', 'Master', 'PHD'];
-    const jobs = ['None', 'designer', 'development', 'product', 'other'];
+
     const navigate = useNavigate();
 
-
     const handleSubmit = (values) => {
-        let email = props.email;
-        console.log("values", values);
-
-        let createdApplicant = {
-            email: email,
-            nationality: values.nationality,
-            degree: values.degree,
-            applyFor: values.applyFor,
-            birth: values.birth,
-            gender: values.gender,
-            job: values.job,
-            aboutApplicant: values.aboutApplicant
-        }
-
-        let createdForm = {
-            applicant: createdApplicant,
-            applyFor: values.applyFor,
-            dateCreated: new Date(),
-            aboutApplicant: values.aboutApplicant
-        }
-
-        console.log("created", createdApplicant);
-
-        ApplicantDataService.updateApplicant(email, createdApplicant)
-            .then(() => {
-                console.log(createdApplicant);
-                FormDataService.createForm(createdForm)
-            }
-            ).then(() => {
-                console.log("Form Sent")
-                navigate('/forms')
-            }
-            )
-
-
+        console.log('Values Apply', values)
+        props.next(values)
     }
 
     return (
@@ -63,19 +27,7 @@ const Apply = (props) => {
                     <div className="col-md-5 border border-5 p-3 mb-2 shadow-lg p-3 ">
                         <h1 className='fs-1 badge bg-primary text-end text-wrap' >Apply!</h1>
                         <Formik
-                            initialValues={{
-                                nationality: 'Syrian',
-                                degree: degrees[0],
-                                highSchoolDoc: undefined,
-                                bachelorDoc: undefined,
-                                MasterDoc: undefined,
-                                applyFor: degreesToApp[0],
-                                birth: new Date(),
-                                gender: 'male',
-                                acceptedTerms: true,
-                                job: jobs[1],
-                                aboutApplicant: 'epsom lorem',
-                            }}
+                            initialValues={props.data}
                             validationSchema={Yup.object({
                                 nationality: Yup.string()
                                     .required('Required'),
@@ -95,7 +47,7 @@ const Apply = (props) => {
                                 job: Yup.string()
                                     .required('Required'),
                             })
-                                .shape({
+                                /* .shape({
                                     highSchoolDoc: Yup
                                         .mixed()
                                         .required("A file is required"),
@@ -105,7 +57,7 @@ const Apply = (props) => {
                                     masterDoc: Yup
                                         .mixed()
                                         .required("A file is required")
-                                })
+                                }) */
                             }
                             onSubmit={handleSubmit}
                         >
@@ -127,12 +79,12 @@ const Apply = (props) => {
                                         <div className="col-md">
                                             <div className="form-floating">
                                                 <fieldset className="form-group">
-                                                    <MyTextInput
-                                                        label="Nationality"
-                                                        name="nationality"
-                                                        type="text"
-                                                        placeholder="Syrian"
-                                                    />
+                                                    <MySelect label="Nationality" name="nationality">
+                                                        {countryList.map(e => (
+                                                            <option key={e} value={e} >{e}</option>
+                                                        )
+                                                        )}
+                                                    </MySelect>
                                                 </fieldset>
                                             </div>
                                         </div>
@@ -213,7 +165,7 @@ const Apply = (props) => {
                                         </MyCheckbox>
                                     </fieldset>
 
-                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                    <button type="submit" className="btn btn-primary">Next</button>
                                 </Form>
                             )}
                         </Formik>

@@ -10,49 +10,13 @@ import MySelect from '../MyFormikComponents/MySelect';
 import ApplicantDataService from '../../../api/ApplicantDataService';
 import { useNavigate } from 'react-router-dom';
 import FormDataService from '../../../api/FormDataService';
-import { visaTypes, medicalConditionValues, hearAboutUsValues, phoneRegExp, str2bool, countryList } from './resources'
+import { visaTypes, str2bool, countryList } from './resources'
 
 const PassAndVisa = (props) => {
 
-    const navigate = useNavigate();
-
     const handleSubmit = (values) => {
-        console.log(values.hasVisa);
-
-        /* let email = props.email;
-        console.log("values", values);
-
-        let createdApplicant = {
-            email: email,
-            VisaNumber: values.VisaNumber,
-            medicalCondition: values.medicalCondition,
-            hearAboutUsWays: values.hearAboutUsWays,
-            birth: values.birth,
-            VisaExpiry: values.VisaExpiry,
-            aboutApplicant: values.aboutApplicant
-        }
-
-        let createdForm = {
-            applicant: createdApplicant,
-            hearAboutUsWays: values.hearAboutUsWays,
-            dateCreated: new Date(),
-            aboutApplicant: values.aboutApplicant
-        }
-
-        console.log("created", createdApplicant);
-
-        ApplicantDataService.updateApplicant(email, createdApplicant)
-            .then(() => {
-                console.log(createdApplicant);
-                FormDataService.createForm(createdForm)
-            }
-            ).then(() => {
-                console.log("Form Sent")
-                navigate('/forms')
-            }
-            )
- */
-
+        console.log('Values Pass And Visa', values)
+        props.next(values)
     }
 
     return (
@@ -63,15 +27,7 @@ const PassAndVisa = (props) => {
                         <h1 className='fs-1 badge bg-primary text-wrap text-center'>Passport And Visa Details</h1>
                         <Formik
                             enableReinitialize={true}
-                            initialValues={{
-                                passCountry: '',
-                                passNumber: '123456',
-                                passExpiry: new Date(),
-                                passDoc: undefined,
-                                VisaNumber: '123456',
-                                VisaExpiry: new Date(),
-                                hasVisa: str2bool("false"),
-                            }}
+                            initialValues={props.data}
                             validationSchema={Yup.object({
                                 passCountry: Yup.string()
                                     .required('Required'),
@@ -86,11 +42,11 @@ const PassAndVisa = (props) => {
                                 hasVisa: Yup.boolean()
                                     .required('Required'),
                             })
-                                .shape({
+                                /* .shape({
                                     passDoc: Yup
                                         .mixed()
                                         .required("A file is required")
-                                })
+                                }) */
                             }
                             onSubmit={handleSubmit}
                         >
@@ -141,11 +97,11 @@ const PassAndVisa = (props) => {
                                     <div id="has-visa-group" className="form-check fw-bold text-start">Do you currently hold a valid visa of Iran?</div>
                                     <div role="group" aria-labelledby="has-visa-group" className='form-check text-start'>
                                         <Field type="radio" className="form-check-input" name="hasVisa" value="true" id="hasVisa" />
-                                        <label className="form-check-label" for="hasVisa">Yes</label>
+                                        <label className="form-check-label" htmlFor="hasVisa">Yes</label>
                                     </div>
                                     <div role="group" aria-labelledby="has-visa-group" className='form-check text-start'>
                                         <Field type="radio" className="form-check-input" name="hasVisa" value="false" id="hasVisa" />
-                                        <label className="form-check-label" for="hasVisa">No</label>
+                                        <label className="form-check-label" htmlFor="hasVisa">No</label>
                                     </div>
 
                                     {str2bool(values.hasVisa) && <fieldset className="form-group fw-bold">
@@ -185,7 +141,16 @@ const PassAndVisa = (props) => {
                                         </div>
                                     </div>
                                     }
-                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                    
+                                    <div className="row g-2 text-start fw-bold">
+                                        <div className="col-md text-start">
+                                            <button type="button" onClick={() => props.prev(values)} className="btn btn-primary">Back</button>
+                                        </div>
+                                        <div className="col-md text-end">
+                                            <button type="submit" className="btn btn-primary">Next</button>
+                                        </div>
+                                    </div>
+
                                 </Form>
                             )}
 

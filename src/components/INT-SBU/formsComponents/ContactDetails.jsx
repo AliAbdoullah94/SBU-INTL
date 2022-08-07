@@ -10,49 +10,15 @@ import MySelect from '../MyFormikComponents/MySelect';
 import ApplicantDataService from '../../../api/ApplicantDataService';
 import { useNavigate } from 'react-router-dom';
 import FormDataService from '../../../api/FormDataService';
-import {medicalConditionValues, hearAboutUsValues, phoneRegExp, str2bool} from './resources'
+import { medicalConditionValues, hearAboutUsValues, phoneRegExp, str2bool } from './resources'
 
 const ContactDetails = (props) => {
-    
+
     const navigate = useNavigate();
 
     const handleSubmit = (values) => {
-        console.log(values.hasMedicalCondition);
-
-        /* let email = props.email;
-        console.log("values", values);
-
-        let createdApplicant = {
-            email: email,
-            address: values.address,
-            medicalCondition: values.medicalCondition,
-            hearAboutUsWays: values.hearAboutUsWays,
-            birth: values.birth,
-            city: values.city,
-            aboutApplicant: values.aboutApplicant
-        }
-
-        let createdForm = {
-            applicant: createdApplicant,
-            hearAboutUsWays: values.hearAboutUsWays,
-            dateCreated: new Date(),
-            aboutApplicant: values.aboutApplicant
-        }
-
-        console.log("created", createdApplicant);
-
-        ApplicantDataService.updateApplicant(email, createdApplicant)
-            .then(() => {
-                console.log(createdApplicant);
-                FormDataService.createForm(createdForm)
-            }
-            ).then(() => {
-                console.log("Form Sent")
-                navigate('/forms')
-            }
-            )
- */
-
+        console.log('Values Conatct', values)
+        props.next(values)
     }
 
     return (
@@ -63,43 +29,35 @@ const ContactDetails = (props) => {
                         <h1 className='fs-1 badge bg-primary text-wrap text-center'>Contact Details</h1>
                         <Formik
                             enableReinitialize={true}
-                            initialValues={{
-                                address: 'Velenjak - Bolvar',
-                                city: 'Damascus',
-                                mobile: '09901234567',
-                                phone: '0211234567',
-                                hasMedicalCondition: str2bool("false"),
-                                medicalConditions: medicalConditionValues[1],
-                                hearAboutUsWays: hearAboutUsValues[0],
-                            }}
+                            initialValues={props.data}
                             validationSchema={
                                 Yup.object({
-                                address: Yup.string()
-                                    .required('Required'),
-                                city: Yup.string()
-                                    .required('Required'),
-                                mobile: Yup.string()
-                                    .required('Required')
-                                    .matches(phoneRegExp, 'Mobile number is not valid'),
-                                phone: Yup.string()
-                                    .required('Required')
-                                    .matches(phoneRegExp, 'Phone number is not valid'),
-                                hasMedicalCondition: Yup.boolean()
-                                    .required('Required'),
-                                medicalConditions: Yup.array().of(Yup.string())
-                                    .required('Required'),
-                                hearAboutUsWays: Yup.array().of(Yup.string())
-                                    .required('Required'),
-                            })
-                        }
+                                    address: Yup.string()
+                                        .required('Required'),
+                                    city: Yup.string()
+                                        .required('Required'),
+                                    mobile: Yup.string()
+                                        .required('Required')
+                                        .matches(phoneRegExp, 'Mobile number is not valid'),
+                                    phone: Yup.string()
+                                        .required('Required')
+                                        .matches(phoneRegExp, 'Phone number is not valid'),
+                                    hasMedicalCondition: Yup.boolean()
+                                        .required('Required'),
+                                    /* medicalConditions: Yup.array().of(Yup.string())
+                                        .required('Required'), */
+                                    hearAboutUsWays: Yup.array().of(Yup.string())
+                                        .required('Required'),
+                                })
+                            }
                             onSubmit={handleSubmit}
                         >
                             {({ values }) => (
                                 <Form >
 
-                                    <div class="row g-2 text-start fw-bold">
-                                        <div class="col-md">
-                                            <div class="form-floating">
+                                    <div className="row g-2 text-start fw-bold">
+                                        <div className="col-md">
+                                            <div className="form-floating">
                                                 <fieldset className="form-group">
                                                     <MyTextInput
                                                         label="Address"
@@ -110,8 +68,8 @@ const ContactDetails = (props) => {
                                                 </fieldset>
                                             </div>
                                         </div>
-                                        <div class="col-md">
-                                            <div class="form-floating">
+                                        <div className="col-md">
+                                            <div className="form-floating">
                                                 <fieldset className="form-group">
                                                     <MyTextInput
                                                         label="City"
@@ -124,9 +82,9 @@ const ContactDetails = (props) => {
                                         </div>
                                     </div>
 
-                                    <div class="row g-2 text-start fw-bold">
-                                        <div class="col-md">
-                                            <div class="form-floating">
+                                    <div className="row g-2 text-start fw-bold">
+                                        <div className="col-md">
+                                            <div className="form-floating">
                                                 <fieldset className="form-group">
                                                     <MyTextInput
                                                         label="Mobile"
@@ -137,8 +95,8 @@ const ContactDetails = (props) => {
                                                 </fieldset>
                                             </div>
                                         </div>
-                                        <div class="col-md">
-                                            <div class="form-floating">
+                                        <div className="col-md">
+                                            <div className="form-floating">
                                                 <fieldset className="form-group">
                                                     <MyTextInput
                                                         label="Phone"
@@ -154,11 +112,11 @@ const ContactDetails = (props) => {
                                     <div id="has-medical-condition-group" className="form-check fw-bold text-start">Do you suffer from any medical condition/disability that may affect your studies?</div>
                                     <div role="group" aria-labelledby="has-medical-condition-group" className='form-check text-start'>
                                         <Field type="radio" className="form-check-input" name="hasMedicalCondition" value="true" id="hasMedicalCondition" />
-                                        <label className="form-check-label" for="hasMedicalCondition">Yes</label>
+                                        <label className="form-check-label" htmlFor="hasMedicalCondition">Yes</label>
                                     </div>
                                     <div role="group" aria-labelledby="has-medical-condition-group" className='form-check text-start'>
                                         <Field type="radio" className="form-check-input" name="hasMedicalCondition" value="false" id="hasMedicalCondition" />
-                                        <label className="form-check-label" for="hasMedicalCondition">No</label>
+                                        <label className="form-check-label" htmlFor="hasMedicalCondition">No</label>
                                     </div>
 
                                     {str2bool(values.hasMedicalCondition) && <fieldset className="form-check text-start">
@@ -178,8 +136,14 @@ const ContactDetails = (props) => {
                                             </MyCheckbox>
                                         ))}
                                     </fieldset>
-
-                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                    <div className="row g-2 text-start fw-bold">
+                                        <div className="col-md text-start">
+                                            <button type="button" onClick={() => props.prev(values)} className="btn btn-primary">Back</button>
+                                        </div>
+                                        <div className="col-md text-end">
+                                            <button type="submit" className="btn btn-primary">Next</button>
+                                        </div>
+                                    </div>
                                 </Form>
                             )}
 
