@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Apply from '../Apply';
+import PersonalInfo from './PersonalInfo';
 import ContactDetails from './ContactDetails';
 import PassAndVisa from './PassAndVisa';
 import CourseSelection from './CourseSelection';
@@ -8,10 +8,10 @@ import moment from "moment";
 
 function Form() {
     const [page, setPage] = useState(0);
-    const FormTitles = ["Apply", "Contact Details", "Passport", "Course Selection"];
+    const FormTitles = ["PersonalInfo", "Contact Details", "Passport", "Course Selection"];
     const [currentStep, setCurrentStep] = useState(0);
     const [data, setData] = useState({
-        //Apply
+        //PersonalInfo
         nationality: countryList[215],
         degree: degrees[0],
         highSchoolDoc: undefined,
@@ -105,7 +105,7 @@ function Form() {
     }
 
     const steps = [
-        <Apply next={handleNextStep} data={data} />,
+        <PersonalInfo next={handleNextStep} data={data} />,
         <ContactDetails next={handleNextStep} prev={handlePrevStep} data={data} />,
         <PassAndVisa next={handleNextStep} prev={handlePrevStep} data={data} />,
         <CourseSelection next={handleNextStep} prev={handlePrevStep} data={data} />]

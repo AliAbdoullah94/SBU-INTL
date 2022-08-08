@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 import AuthenticationService from "../../auth/AuthenticationService";
 import Header from './Header';
 import Navbar from '../INT/navbar';
-import Apply from './Apply';
 import SignUp from './SignUp';
 import NotFound from '../INT/NotFound';
 import Sformik from './Sformik';
@@ -39,7 +38,6 @@ const SBU = () => {
                     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setEmail={setEmail}/>}/>
                     <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn}/>}/>
                     <Route path="/welcome/:name" element={<Welcome/>}/>
-                    <Route path="/apply" element={<Apply email={email}/>}/>
                     <Route path="/todos" element={<ListTodos/>}/>
                     <Route path="/todos/:id" element={<Todo/>}/>
                     <Route path="/formik" element={<Sformik/>}/>
@@ -47,7 +45,7 @@ const SBU = () => {
                     <Route path="/archive" element={<Archive/>}/>
                     <Route path="/applicants" element={<Applicants/>}/>
                     <Route path="/multi" element={<Form/>}/>
-                    <Route path="/main" element={<MainForm/>}/>
+                    <Route path="/main" element={<MainForm email={email}/>}/>
                     <Route path="/contact" element={<ContactDetails/>}/>
                     <Route path="/pass" element={<PassAndVisa/>}/>
                     <Route path="/course" element={<CourseSelection/>}/>

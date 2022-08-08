@@ -2,21 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Formik, Form, useField, Field } from 'formik';
 import * as Yup from 'yup';
-import AuthenticationService from '../../auth/AuthenticationService';
-import MyTextInput from './MyFormikComponents/MyTextInput';
-import MyTextArea from './MyFormikComponents/MyTextArea';
-import MyCheckbox from './MyFormikComponents/MyCheckBox';
-import MySelect from './MyFormikComponents/MySelect';
-import ApplicantDataService from '../../api/ApplicantDataService';
+import AuthenticationService from '../../../auth/AuthenticationService';
+import MyTextInput from '../MyFormikComponents/MyTextInput';
+import MyTextArea from '../MyFormikComponents/MyTextArea';
+import MyCheckbox from '../MyFormikComponents/MyCheckBox';
+import MySelect from '../MyFormikComponents/MySelect';
+import ApplicantDataService from '../../../api/ApplicantDataService';
 import { useNavigate } from 'react-router-dom';
-import FormDataService from '../../api/FormDataService';
-import { countryList, degrees, degreesToApp, jobs } from './formsComponents/resources'
-const Apply = (props) => {
-
-    const navigate = useNavigate();
+import FormDataService from '../../../api/FormDataService';
+import { countryList, degrees, degreesToApp, jobs } from './resources'
+const PersonalInfo = (props) => {
 
     const handleSubmit = (values) => {
-        console.log('Values Apply', values)
+        console.log('Values PersonalInfo', values)
         props.next(values)
     }
 
@@ -173,4 +171,4 @@ const Apply = (props) => {
     );
 };
 
-export default Apply;
+export default PersonalInfo;
