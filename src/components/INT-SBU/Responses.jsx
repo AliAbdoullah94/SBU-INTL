@@ -2,30 +2,30 @@ import moment from "moment";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FormDataService from "../../api/FormDataService";
+import ResponseDataService from "../../api/ResponseDataService";
 import AuthenticationService from "../../auth/AuthenticationService";
 
-const Forms = () => {
+const Responses = () => {
 
-    const [forms, setForms] = useState([]);
+    const [Responses, setResponses] = useState([]);
     const [message, setMessage] = useState(null);
     const navigator = useNavigate();
 
     useEffect(() => {
-        FormDataService.retrieveAllForms()
+        ResponseDataService.retrieveAllResponses()
         .then(
             response => {
-                setForms(response.data)
+                setResponses(response.data)
             }
         )
-      }, [forms, message])
+      }, [Responses, message])
 
-    const deleteFormClicked = (id) => {
+    const deleteResponseClicked = (id) => {
         /* let username = AuthenticationService.getLoggedInUserName(); */
-        FormDataService.deleteForm(id)
+        ResponseDataService.deleteResponse(id)
         .then(
             response => {
-                setMessage(`Delete of form ${id} succesfull`)
+                setMessage(`Delete of Response ${id} succesfull`)
             }
         )
     }  
@@ -34,45 +34,38 @@ const Forms = () => {
         navigator(`/applicants/${id}`)
     }
 
-    const replyClicked = (applicantEmail,response) => {
-        if (response) {
-            navigator(`/response/${applicantEmail}/edit`)
-        }
-        else {
-            navigator(`/response/${applicantEmail}/new`)
-        }
+    const editResponseClicked = (applicantEmail,id) => {
+        navigator(`/response/${applicantEmail}/${id}`)
     }
 
     return (
 
         
         <div>
-            <h1>Forms</h1>
+            <h1>Responses</h1>
             {message && <div className="alert alert-success">{message}</div>}
             <div className="container">
                 <table className="table">
                     <thead>
                         <tr>
                             <th>Applicant</th>
-                            <th>Response</th>
-                            <th>Apply For</th>
+                            <th>Accepted?</th>
+                            <th>Response Text</th>
                             <th>Date Created</th>
-                            <th>About Applicant</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            forms.map(
+                            Responses.map(
                                 e => (
                                     <tr key={e.id}>
                                         <td>{e.applicant.firstName + ' ' + e.applicant.lastName}</td>
-                                        <td>{!e.response ? "Not yet": e.response}</td>
-                                        <td>{e.applyFor}</td>
+                                        <td>{e.accepted == false ? "Not" : "Yes"}</td>
+                                        <td>{e.responseText}</td>
                                         <td>{moment(e.dateCreated).format('YYYY-MM-DD')}</td>
-                                        <td>{e.aboutApplicant}</td>
-                                        <td><button className="btn btn-warning" onClick={() => deleteFormClicked(e.id)}>Delete</button></td>
-                                        <td><button className="btn btn-success" onClick={() => ShowApplicantClicked(e.applicant.id)}>Show Applicant Info</button></td>
-                                        <td><button className="btn btn-success" onClick={() => replyClicked(e.applicant.email, e.response)}>{!e.response ? "Reply": "Edit Reply"}</button></td>
+                                        <td><button className="btn btn-warning" onClick={() => deleteResponseClicked(e.id)}>Delete</button></td>
+                                        <td><button className="btn btn-success" onClick={() => ShowApplicantClicked(e.applicant.id)}>Show Applicant Info</button></td> 
+                                        <td><button className="btn btn-success" onClick={() => editResponseClicked(e.applicant.email,e.id)}>Edit Response</button></td>
                                     </tr>
                                 )
                             )
@@ -85,5 +78,5 @@ const Forms = () => {
     );
 }
 
-export default Forms; 
+export default Responses; 
 
