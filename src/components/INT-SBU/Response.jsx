@@ -6,6 +6,7 @@ import ResponseDataService from "../../api/ResponseDataService";
 import AuthenticationService from "../../auth/AuthenticationService";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import LogDataService from "../../api/LogDataService";
 
 const Response = () => {
     const navigete = useNavigate();
@@ -63,12 +64,25 @@ const Response = () => {
             accepted: values.accepted,
             dateCreated: new Date(),
         }
+
+        let createdLog = {
+            logType: 'Response',
+            response: createdResponse,
+            dateCreated: new Date(),
+        }
+
+
         if (id === "new") {
             console.log('id = new so Creating response')
             let username = AuthenticationService.getLoggedInUserName();
             ResponseDataService.createResponse(applicantEmail ,createdResponse)
                 .then(
-                    (resp) => { navigete('/responses') }
+                    (resp) => { 
+                        LogDataService.createLog(createdLog,applicantEmail)
+                    }
+                )
+                .then (
+                    () => { navigete('/responses') }
                 )
         } else {
             let username = AuthenticationService.getLoggedInUserName();

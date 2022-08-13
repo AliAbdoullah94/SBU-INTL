@@ -31,9 +31,11 @@ const SignUp = (props) => {
             dateCreated: new Date(),
         }
 
+        console.log("Created Applicant",createdApplicant)
+        console.log("Created Log",createdLog)
         ApplicantDataService.createApplicant(createdApplicant)
             .then(() => {
-                LogDataService.createLog(createdLog);
+                LogDataService.createLog(createdLog,"signUp");
             }
             ).then(() => {
                 console.log("Log created")

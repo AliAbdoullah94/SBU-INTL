@@ -34,6 +34,10 @@ const Archive = () => {
         navigator(`/applicants/${id}`)
     }
 
+    const ShowFormClicked = (id) => {
+        navigator(`/forms`)
+    }
+
     return (
         <div>
             <h1>Archive</h1>
@@ -58,7 +62,7 @@ const Archive = () => {
                                         <td>{e.logType}</td>
                                         <td>{!e.applicant ? e.admin.firstName + ' ' + e.admin.lastName : e.applicant.firstName + ' ' + e.applicant.lastName}</td>
                                         <td>{moment(e.dateCreated).format('YYYY-MM-DD')}</td>
-                                        <td>{!e.form ? "Don't has": e.form}</td>
+                                        <td>{!e.form ? "Don't has": <button className="btn btn-success" onClick={() => ShowFormClicked(e.applicant.id)}>Show Form</button>}</td>
                                         <td><button className="btn btn-warning" onClick={() => deleteLogClicked(e.id)}>Delete</button></td>
                                         <td><button className="btn btn-success" onClick={() => ShowApplicantClicked(e.applicant.id)}>Show Maker Info</button></td>
                                     </tr>

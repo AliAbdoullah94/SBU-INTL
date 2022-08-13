@@ -23,8 +23,16 @@ class LogDataService {
         })
     }
 
-    createLog(log) {
-        return fetch('http://localhost:8080/logs', {
+    createLog(log, type, applicantEmail = false) {
+        if (applicantEmail) {
+            return fetch(`http://localhost:8080/logs/${applicantEmail}`, {
+                method: 'POST',
+                headers: { "Content-type": "application/json" },
+                body: JSON.stringify(log)
+            })
+        }
+
+        return fetch(`http://localhost:8080/logs/${type}`, {
             method: 'POST',
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(log)

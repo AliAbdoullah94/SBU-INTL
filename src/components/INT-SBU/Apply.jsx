@@ -10,6 +10,7 @@ import MySelect from './MyFormikComponents/MySelect';
 import ApplicantDataService from '../../api/ApplicantDataService';
 import { useNavigate } from 'react-router-dom';
 import FormDataService from '../../api/FormDataService';
+import LogDataService from '../../api/LogDataService';
 
 const Apply = (props) => {
     const degrees = ['High School', 'Bachelor', 'Master'];
@@ -33,6 +34,12 @@ const Apply = (props) => {
             aboutApplicant: values.aboutApplicant
         }
 
+        let createdLog = {
+            logType: 'Apply',
+            applicant: createdApplicant,
+            dateCreated: new Date(),
+        }
+
         console.log("Created Applicant:",createdApplicant);
 
         let createdForm = {
@@ -50,10 +57,14 @@ const Apply = (props) => {
                 FormDataService.createForm(createdForm)
             }
             ).then(() => {
+                LogDataService.createLog(createdLog,"apply");
+            }
+            ).then(() => {
                 console.log("Form Sent")
                 navigate('/forms')
             }
             )
+
 
 
     }
