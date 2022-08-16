@@ -35,9 +35,9 @@ const PassAndVisa = (props) => {
                                     .required('Required'),
                                 passExpiry: Yup.date()
                                     .required('Required'),
-                                VisaNumber: Yup.string()
+                                visaNumber: Yup.string()
                                     .required('Required'),
-                                VisaExpiry: Yup.date()
+                                visaExpiry: Yup.date()
                                     .required('Required'),
                                 hasVisa: Yup.boolean()
                                     .required('Required'),
@@ -120,7 +120,7 @@ const PassAndVisa = (props) => {
                                                 <fieldset className="form-group">
                                                     <MyTextInput
                                                         label="Visa Number"
-                                                        name="VisaNumber"
+                                                        name="visaNumber"
                                                         type="text"
                                                         placeholder="ie 2346"
                                                     />
@@ -132,7 +132,7 @@ const PassAndVisa = (props) => {
                                                 <fieldset className="form-group">
                                                     <MyTextInput
                                                         label="Visa Expiry"
-                                                        name="VisaExpiry"
+                                                        name="visaExpiry"
                                                         type="date"
                                                         placeholder="Damas"
                                                     />

@@ -51,7 +51,7 @@ const SBU = () => {
                     <Route path="/archive" element={<Archive/>}/>
                     <Route path="/applicants" element={<Applicants/>}/>
                     <Route path="/multi" element={<Form/>}/>
-                    <Route path="/main" element={<MainForm/>}/>
+                    <Route path="/main" element={<MainForm email={email}/>}/>
                     <Route path="/contact" element={<ContactDetails/>}/>
                     <Route path="/pass" element={<PassAndVisa/>}/>
                     <Route path="/course" element={<CourseSelection/>}/>

@@ -5,22 +5,25 @@ import PassAndVisa from './PassAndVisa';
 import CourseSelection from './CourseSelection';
 import { medicalConditionValues, hearAboutUsValues, str2bool, degrees, degreesToApp, jobs, countryList, visaTypes, faculties } from './resources'
 import moment from "moment";
+import ApplicantDataService from "../../../api/ApplicantDataService";
+import FormDataService from "../../../api/FormDataService";
+import { useNavigate } from "react-router-dom";
 
-function Form() {
+function MainForm(props) {
+    const navigate = useNavigate();
     const [page, setPage] = useState(0);
     const FormTitles = ["PersonalInfo", "Contact Details", "Passport", "Course Selection"];
     const [currentStep, setCurrentStep] = useState(0);
     const [data, setData] = useState({
         //PersonalInfo
+        birth: moment(new Date).format('YYYY-MM-DD'),
         nationality: countryList[215],
         degree: degrees[0],
         highSchoolDoc: undefined,
         bachelorDoc: undefined,
         MasterDoc: undefined,
         applyFor: degreesToApp[0],
-        birth: moment(new Date).format('YYYY-MM-DD'),
         gender: 'male',
-        acceptedTerms: true,
         job: jobs[1],
         aboutApplicant: 'epsom lorem',
         //Conact Details
@@ -36,40 +39,57 @@ function Form() {
         passNumber: '123456',
         passExpiry: moment(new Date).format('YYYY-MM-DD'),
         passDoc: undefined,
-        VisaNumber: '123456',
-        VisaExpiry: moment(new Date).format('YYYY-MM-DD'),
         hasVisa: str2bool("false"),
+        visaType: visaTypes[0],
+        visaNumber: '123456',
+        visaExpiry: moment(new Date).format('YYYY-MM-DD'),
         //Course Selection
-        faculity: 'Faculty of Electrical Engineering',
+        faculty: 'Faculty of Electrical Engineering',
         department: faculties['Faculty of Electrical Engineering'][0],
-        PassExpiry: moment(new Date).format('YYYY-MM-DD'),
-        VisaNumber: '123456',
-        VisaExpiry: moment(new Date).format('YYYY-MM-DD'),
-        hasVisa: str2bool("false"),
+        wishList: [],
     });
 
     const makeRequest = (formData) => {
-        console.log("Form Submitted", formData)
+        console.log("MainForm Submitted", formData)
 
-        /* let email = props.email;
-        console.log("values", values);
+        let email = props.email;
+        console.log("formData", formData);
 
         let createdApplicant = {
             email: email,
-            nationality: values.nationality,
-            degree: values.degree,
-            applyFor: values.applyFor,
-            birth: values.birth,
-            gender: values.gender,
-            job: values.job,
-            aboutApplicant: values.aboutApplicant
+            nationality: formData.nationality,
+            degree: formData.degree,
+            applyFor: formData.applyFor,
+            birth: formData.birth,
+            gender: formData.gender,
+            job: formData.job,
+            aboutApplicant: formData.aboutApplicant,
+            //Contact Details
+            address: formData.address,
+            city: formData.city,
+            mobile: formData.mobile,
+            phone: formData.phone,
+            hasMedicalCondition: formData.hasMedicalCondition,
+            medicalConditions: formData.medicalConditions,
+            hearAboutUsWays: formData.hearAboutUsWays,
+            //
+            passCountry: formData.passCountry,
+            passNumber: formData.passNumber,
+            passExpiry: formData.passExpiry,
+            /* passDoc: undefined, */
+            hasVisa: formData.hasVisa,
+            visaType: formData.visaType,
+            visaNumber: formData.visaNumber,
+            visaExpiry: formData.visaExpirya,
+            //
+            wishList: formData.wishList,
         }
 
         let createdForm = {
             applicant: createdApplicant,
-            applyFor: values.applyFor,
+            applyFor: formData.applyFor,
             dateCreated: new Date(),
-            aboutApplicant: values.aboutApplicant
+            aboutApplicant: formData.aboutApplicant
         }
 
         console.log("created", createdApplicant);
@@ -77,14 +97,14 @@ function Form() {
         ApplicantDataService.updateApplicant(email, createdApplicant)
             .then(() => {
                 console.log(createdApplicant);
-                FormDataService.createForm(createdForm)
+                /* FormDataService.createForm(createdForm) */
             }
             ).then(() => {
-                console.log("Form Sent")
-                navigate('/forms')
+                console.log("MainForm Sent")
+                /* navigate('/forms') */
             }
             )
- */
+
     }
 
     const handleNextStep = (newData, final = false) => {
@@ -117,4 +137,4 @@ function Form() {
     );
 }
 
-export default Form;
+export default MainForm;

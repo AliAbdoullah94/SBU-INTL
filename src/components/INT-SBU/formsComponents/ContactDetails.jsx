@@ -14,7 +14,6 @@ import { medicalConditionValues, hearAboutUsValues, phoneRegExp, str2bool } from
 
 const ContactDetails = (props) => {
 
-    const navigate = useNavigate();
 
     const handleSubmit = (values) => {
         console.log('Values Conatct', values)

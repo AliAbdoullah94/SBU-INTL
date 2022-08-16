@@ -13,21 +13,38 @@ const CourseSelection = (props) => {
 
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
-    const [wishList, setWishList] = useState({});
+    const [wishesObject, setwishesObject] = useState({});
+    const [wishList, setWishList] = useState([]);
 
     const addWish = (fac, dep) => {
         console.log('fac is', fac, 'dep is', dep);
-        const temp = wishList;
+        const temp = wishesObject;
         temp[fac] = dep;
         console.log('temp is', temp);
-        setWishList(temp);
-        console.log(wishList);
+        setwishesObject(temp);
+        console.log(wishesObject);
+        addToWishList(fac,dep);
         forceUpdate();
     }
 
+    const addToWishList = (fac, dep) => {
+        let tempWish = {
+            faculty: fac,
+            department: dep,
+        }
+        let tempWishList = wishList;
+        tempWishList.push(tempWish);
+        setWishList(tempWishList);
+        console.log(wishList);
+    }
+
+
     const handleSubmit = (values) => {
         console.log('Values Course', values)
-        props.next(values, true)
+        let tempValues = values;
+        tempValues["wishList"] = wishList
+        console.log("Temp Values", tempValues)
+        props.next(tempValues, true)
     }
 
     return (
@@ -42,14 +59,6 @@ const CourseSelection = (props) => {
                             validationSchema={Yup.object({
                                 department: Yup.string()
                                     .required('Required'),
-                                PassExpiry: Yup.date()
-                                    .required('Required'),
-                                VisaNumber: Yup.string()
-                                    .required('Required'),
-                                VisaExpiry: Yup.date()
-                                    .required('Required'),
-                                hasVisa: Yup.boolean()
-                                    .required('Required'),
                             })}
                             onSubmit={handleSubmit}
                         >
@@ -57,7 +66,7 @@ const CourseSelection = (props) => {
                                 <Form >
 
                                     <fieldset className="form-group fw-bold">
-                                        <MySelect label="Faculity" name="faculity">
+                                        <MySelect label="Faculty" name="faculty">
                                             {
                                                 Object.keys(faculties).map(key => {
                                                     return (<option key={key} value={key}> {key}</option>)
@@ -66,10 +75,10 @@ const CourseSelection = (props) => {
                                         </MySelect>
                                     </fieldset>
 
-                                    <fieldset className="form-group fw-bold">
+                                    <fieldset className="form-group fw-bold"> 
                                         <MySelect label="Department" name="department">
                                             {
-                                                faculties[values.faculity].map(e => (
+                                                faculties[values.faculty].map(e => (
                                                     <option key={e} value={e} >{e}</option>
                                                 )
                                                 )
@@ -77,12 +86,12 @@ const CourseSelection = (props) => {
                                         </MySelect>
                                     </fieldset>
 
-                                    <button type='button' onClick={() => addWish(values.faculity, values.department)} className="btn btn-primary">Add Wish</button>
+                                    <button type='button' onClick={() => addWish(values.faculty, values.department)} className="btn btn-primary">Add Wish</button>
 
                                     <fieldset className="form-group fw-bold">
                                         <div className='text-start'>
                                             {
-                                                Object.entries(wishList).map(item => {
+                                                Object.entries(wishesObject).map(item => {
                                                     return (
                                                         <div key={item}>
                                                             <h4>{item}</h4>
