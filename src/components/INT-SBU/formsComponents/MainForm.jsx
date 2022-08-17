@@ -80,7 +80,7 @@ function MainForm(props) {
             hasVisa: formData.hasVisa,
             visaType: formData.visaType,
             visaNumber: formData.visaNumber,
-            visaExpiry: formData.visaExpirya,
+            visaExpiry: formData.visaExpiry,
             //
             wishList: formData.wishList,
         }
