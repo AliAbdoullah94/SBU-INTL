@@ -26,6 +26,9 @@ import MainForm from './formsComponents/MainForm';
 import Archive from './Archive';
 import Response from './Response';
 import Responses from './Responses';
+import Course from './Course';
+import Grades from './Grades';
+import Courses from './Courses';
 
 const SBU = () => {
 
@@ -43,10 +46,13 @@ const SBU = () => {
                     <Route path="/welcome/:name" element={<Welcome/>}/>
                     <Route path="/apply" element={<Apply email={email}/>}/>
                     <Route path="/todos" element={<ListTodos/>}/>
-                    <Route path="/response/:applicantEmail/:id" element={<Response/>}/>
+                    <Route path="/response/:applicantEmail/:responseId/:applicantId" element={<Response/>}/>
                     <Route path="/todos/:id" element={<Todo/>}/>
                     <Route path="/formik" element={<Sformik/>}/>
                     <Route path="/forms" element={<Forms/>}/>
+                    <Route path="/course" element={<Course/>}/>
+                    <Route path="/courses" element={<Courses/>}/>
+                    <Route path="/grades" element={<Grades/>}/>
                     <Route path="/responses" element={<Responses/>}/>
                     <Route path="/archive" element={<Archive/>}/>
                     <Route path="/applicants" element={<Applicants/>}/>

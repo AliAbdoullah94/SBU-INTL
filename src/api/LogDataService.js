@@ -24,7 +24,7 @@ class LogDataService {
     }
 
     createLog(log, type, applicantEmail = false) {
-        if (applicantEmail) {
+        if (applicantEmail) { // response
             return fetch(`http://localhost:8080/logs/${applicantEmail}`, {
                 method: 'POST',
                 headers: { "Content-type": "application/json" },

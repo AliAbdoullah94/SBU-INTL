@@ -6,7 +6,7 @@ import CourseSelection from './CourseSelection';
 import { medicalConditionValues, hearAboutUsValues, str2bool, degrees, degreesToApp, jobs, countryList, visaTypes, faculties } from './resources'
 import moment from "moment";
 import ApplicantDataService from "../../../api/ApplicantDataService";
-import FormDataService from "../../../api/FormDataService";
+import LogDataService from "../../../api/LogDataService";
 import { useNavigate } from "react-router-dom";
 
 function MainForm(props) {
@@ -56,6 +56,7 @@ function MainForm(props) {
         console.log("formData", formData);
 
         let createdApplicant = {
+            dateApplied: new Date(),
             email: email,
             nationality: formData.nationality,
             degree: formData.degree,
@@ -85,11 +86,10 @@ function MainForm(props) {
             wishList: formData.wishList,
         }
 
-        let createdForm = {
+        let createdLog = {
+            logType: 'Apply',
             applicant: createdApplicant,
-            applyFor: formData.applyFor,
             dateCreated: new Date(),
-            aboutApplicant: formData.aboutApplicant
         }
 
         console.log("created", createdApplicant);
@@ -97,7 +97,7 @@ function MainForm(props) {
         ApplicantDataService.updateApplicant(email, createdApplicant)
             .then(() => {
                 console.log(createdApplicant);
-                /* FormDataService.createForm(createdForm) */
+                LogDataService.createLog(createdLog,"apply")
             }
             ).then(() => {
                 console.log("MainForm Sent")

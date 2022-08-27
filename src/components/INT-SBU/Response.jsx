@@ -7,10 +7,11 @@ import AuthenticationService from "../../auth/AuthenticationService";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LogDataService from "../../api/LogDataService";
+import StudentDataService from "../../api/StudentDataService";
 
 const Response = () => {
     const navigete = useNavigate();
-    const { applicantEmail, id } = useParams();
+    const { applicantEmail, responseId, applicantId } = useParams();
     const [response, setResponse] = useState(
         {
             applicantEmail: applicantEmail,
@@ -19,16 +20,18 @@ const Response = () => {
             dateCreated: undefined,
         });
 
+    const [stId, setStId] = useState(-1);
+
     useEffect(() => {
-        console.log("From Response Use Effect id =", id);
+        console.log("From Response Use Effect responseId =", responseId);
         console.log("From Response Use Effect applicantEmail =", applicantEmail);
         // First Time Response
-        if (id === "new") {
+        if (responseId === "new") {
             return
         }
 
         let username = AuthenticationService.getLoggedInUserName();
-        ResponseDataService.retrieveResponse(id)
+        ResponseDataService.retrieveResponse(responseId)
             .then(response => {
                 setResponse({
                     responseText: response.data.responseText,
@@ -49,12 +52,11 @@ const Response = () => {
         else if (values.responseText.length < 5) {
             errors.responseText = "Enter at least 5 letters";
         }
-        if (!moment(values.targetDate).isValid()) {
-            console.log("not valid date")
-            errors.targetDate = "Enter a valid Date";
-        }
+        
         return errors;
     }
+
+
 
     const onSubmit = (values) => {
         console.log(values)
@@ -71,22 +73,34 @@ const Response = () => {
             dateCreated: new Date(),
         }
 
+        let createdStuInfo = {
+            applicantId: applicantId, // todo: change
+            stId: values.stId,
+        }
 
-        if (id === "new") {
-            console.log('id = new so Creating response')
+
+
+        if (responseId === "new") {
+            console.log('responseId = new so Creating response')
             let username = AuthenticationService.getLoggedInUserName();
-            ResponseDataService.createResponse(applicantEmail ,createdResponse)
+            ResponseDataService.createResponse(applicantEmail, createdResponse)
                 .then(
-                    (resp) => { 
-                        LogDataService.createLog(createdLog,applicantEmail)
+                    (resp) => {
+                        LogDataService.createLog(createdLog, applicantEmail)
                     }
                 )
-                .then (
+                .then(
+                    (resp) => {
+                        console.log("Sending createdStu",createdStuInfo)
+                        StudentDataService.createStudent(createdStuInfo)
+                    }
+                )
+                .then(
                     () => { navigete('/responses') }
                 )
         } else {
             let username = AuthenticationService.getLoggedInUserName();
-            ResponseDataService.updateResponse(id, createdResponse)
+            ResponseDataService.updateResponse(responseId, createdResponse)
                 .then(
                     () => { navigete('/responses') }
                 )
@@ -101,15 +115,14 @@ const Response = () => {
                         <h1 className='fs-1 badge bg-primary text-wrap text-center'>Response</h1>
                         <div className="container">
                             <Formik
-                                initialValues={{accepted, responseText }}
+                                initialValues={{ accepted, responseText }}
                                 onSubmit={onSubmit}
                                 validate={validate}
                                 validateOnChange={true}
                                 validateOnBlur={true}
                                 enableReinitialize={true}
                             >
-                                {
-                                    (props) => (
+                                {({ values }) => (
                                         <Form>
                                             <ErrorMessage className="alert alert-warning" name="responseText" component="div" />
 
@@ -127,6 +140,13 @@ const Response = () => {
                                                 <label>Response Text</label>
                                                 <Field className="form-control" type="text" name="responseText" />
                                             </fieldset>
+
+                                            {values.accepted && <fieldset className="form-group">
+                                                <label>Give This Applicant a Student Id:</label>
+                                                <Field className="form-control" type="text" name="stId" />
+                                            </fieldset>}
+
+
 
                                             <button type="submit" className="btn btn-success">Send Reply</button>
                                         </Form>

@@ -21,13 +21,14 @@ const Header = (props) => {
                 <div><a href="http://localhost:4200/" className="navbar-brand">INT</a></div>
                 <ul className="navbar-nav">
                     {props.loggedIn && <li><Link className="nav-link" to="/welcome/Ali">Home</Link></li>}
+                    {props.loggedIn && <li><Link className="nav-link" to="/course">Add Course</Link></li>}
+                    {props.loggedIn && <li><Link className="nav-link" to="/courses">Show Courses</Link></li>}
+                    {props.loggedIn && <li><Link className="nav-link" to="/grades">Add Grades</Link></li>}
                     {props.loggedIn && <li><Link className="nav-link" to="/main">Main Form</Link></li>}
-                    {props.loggedIn && <li><Link className="nav-link" to="/forms">Forms</Link></li>}
                     {props.loggedIn && <li><Link className="nav-link" to="/responses">Responses</Link></li>}
                     {props.loggedIn && <li><Link className="nav-link" to="/applicants">Applicants</Link></li>}
-                    {props.loggedIn && <li><Link className="nav-link" to="/todos">Todos</Link></li>}
+                    {/* {props.loggedIn && <li><Link className="nav-link" to="/todos">Todos</Link></li>} */}
                     {props.loggedIn && <li><Link className="nav-link" to="/archive">Archive</Link></li>}
-                    {props.loggedIn && <li><Link className="nav-link" to="/apply">Apply</Link></li>}
                 </ul>
                 <ul className="navbar-nav navbar-collapse justify-content-end" >
                     {!props.loggedIn && <li><Link className="nav-link" to="/login">Login</Link></li>}
